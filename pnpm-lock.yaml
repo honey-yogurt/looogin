@@ -18,7 +18,7 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1(typescript@5.7.2)(zod@3.23.8)
       '@tanstack/react-query':
-        specifier: ^5.50.0
+        specifier: ^5.62.0
         version: 5.62.0(react@18.3.1)
       '@trpc/client':
         specifier: ^11.0.0-rc.446
@@ -34,6 +34,9 @@ importers:
         version: 2.4.6
       '@zenstackhq/runtime':
         specifier: 2.9.4
+        version: 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
+      '@zenstackhq/server':
+        specifier: ^2.9.4
         version: 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
       geist:
         specifier: ^1.3.0
@@ -78,6 +81,12 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.1.0
         version: 8.16.0(eslint@8.57.1)(typescript@5.7.2)
+      '@zenstackhq/tanstack-query':
+        specifier: ^2.9.4
+        version: 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
+      '@zenstackhq/trpc':
+        specifier: ^2.9.4
+        version: 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
       eslint:
         specifier: ^8.57.0
         version: 8.57.1
@@ -622,6 +631,15 @@ packages:
   '@zenstackhq/sdk@2.9.4':
     resolution: {integrity: sha512-Hudpx0GYIMqB76mQ+HsgfTDZMK5zT5yGz+Guo2i9ShFq1jS/+KLGPPS6wiWkhN2bWhj5ccidPw8aI3VjxUeC9Q==}
 
+  '@zenstackhq/server@2.9.4':
+    resolution: {integrity: sha512-HEzXrkR4OuxUjcH+od7MJynUuSUYNbkyDXcD15tsgpAYlGLjvIep/DCiN+aLeipMgzJFJWXqk7klJFjF7jZV1g==}
+
+  '@zenstackhq/tanstack-query@2.9.4':
+    resolution: {integrity: sha512-WMNBGid0w3oVcmO9328LlQnPY+kfyj9RD6hUTtwSkcGtPBYKmIcflVpNMNSbSo2OspNN8ZjBNHTysjUfxwCneA==}
+
+  '@zenstackhq/trpc@2.9.4':
+    resolution: {integrity: sha512-Ln+UKFMfTN0ATi3hl+lJGan+t07wn6f/gpzp23Zo1mSkCZSfqHxq3HpbE7UxJd3YJn1ZGs0ELK4euavunNSw3A==}
+
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -861,6 +879,9 @@ packages:
     resolution: {integrity: sha512-yCEafptTtb4bk7GLEQoM8KVJpxAfdBJYaXyzQEgQQQgYrZiDp8SJmGKlYza6CYjEDNstAdNdKA3UuoULlEbS6w==}
     engines: {node: '>=12.13'}
 
+  cross-fetch@4.0.0:
+    resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
+
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -907,6 +928,9 @@ packages:
 
   decimal.js-light@2.5.1:
     resolution: {integrity: sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==}
+
+  decimal.js@10.4.3:
+    resolution: {integrity: sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==}
 
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
@@ -1635,6 +1659,15 @@ packages:
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
 
+  node-fetch@2.7.0:
+    resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
@@ -2182,6 +2215,9 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
+  tr46@0.0.3:
+    resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+
   traverse@0.6.10:
     resolution: {integrity: sha512-hN4uFRxbK+PX56DxYiGHsTn2dME3TVr9vbNqlQGcGcPhJAn+tdP126iA+TArMpI4YSgnTkMWyoLl5bf81Hi5TA==}
     engines: {node: '>= 0.4'}
@@ -2194,6 +2230,10 @@ packages:
 
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
+
+  ts-japi@1.11.4:
+    resolution: {integrity: sha512-Nh49KRuDUxnUYbaFLZhhjj2Hbqlw/xYcp/Kp5ct8ZWWW3al9PdZEVbljABzPvlOtjoz1rfi5hzCPol3WUJ8bmA==}
+    engines: {node: '>=10'}
 
   ts-morph@16.0.0:
     resolution: {integrity: sha512-jGNF0GVpFj0orFw55LTsQxVYEUOCWBAbR5Ls7fTYE5pQsbW18ssTb/6UXx/GYAEjS+DQTp8VoTw0vqYMiaaQuw==}
@@ -2266,6 +2306,10 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+  url-pattern@1.0.3:
+    resolution: {integrity: sha512-uQcEj/2puA4aq1R3A2+VNVBgaWYR24FdWjl7VNW83rnWftlhyzOZ/tBjezRiC2UkIzuxC8Top3IekN3vUf1WxA==}
+    engines: {node: '>=0.12.0'}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -2317,6 +2361,12 @@ packages:
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
+
+  webidl-conversions@3.0.1:
+    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+
+  whatwg-url@5.0.0:
+    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
 
   which-boxed-primitive@1.0.2:
     resolution: {integrity: sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg==}
@@ -2880,6 +2930,49 @@ snapshots:
     transitivePeerDependencies:
       - '@prisma/client'
 
+  '@zenstackhq/server@2.9.4(@prisma/client@5.22.0(prisma@5.22.0))':
+    dependencies:
+      '@zenstackhq/runtime': 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
+      change-case: 4.1.2
+      decimal.js: 10.4.3
+      lower-case-first: 2.0.2
+      superjson: 1.13.3
+      tiny-invariant: 1.3.3
+      ts-japi: 1.11.4
+      upper-case-first: 2.0.2
+      url-pattern: 1.0.3
+      zod: 3.23.8
+      zod-validation-error: 1.5.0(zod@3.23.8)
+    transitivePeerDependencies:
+      - '@prisma/client'
+
+  '@zenstackhq/tanstack-query@2.9.4(@prisma/client@5.22.0(prisma@5.22.0))':
+    dependencies:
+      '@zenstackhq/runtime': 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
+      '@zenstackhq/sdk': 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
+      change-case: 4.1.2
+      cross-fetch: 4.0.0
+      lower-case-first: 2.0.2
+      semver: 7.6.3
+      ts-morph: 16.0.0
+      ts-pattern: 4.3.0
+      upper-case-first: 2.0.2
+    transitivePeerDependencies:
+      - '@prisma/client'
+      - encoding
+
+  '@zenstackhq/trpc@2.9.4(@prisma/client@5.22.0(prisma@5.22.0))':
+    dependencies:
+      '@zenstackhq/sdk': 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
+      change-case: 4.1.2
+      lower-case-first: 2.0.2
+      ts-morph: 16.0.0
+      tslib: 2.8.1
+      upper-case-first: 2.0.2
+      zod: 3.23.8
+    transitivePeerDependencies:
+      - '@prisma/client'
+
   acorn-jsx@5.3.2(acorn@8.14.0):
     dependencies:
       acorn: 8.14.0
@@ -3165,6 +3258,12 @@ snapshots:
     dependencies:
       is-what: 4.1.16
 
+  cross-fetch@4.0.0:
+    dependencies:
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -3204,6 +3303,8 @@ snapshots:
       ms: 2.1.3
 
   decimal.js-light@2.5.1: {}
+
+  decimal.js@10.4.3: {}
 
   deep-is@0.1.4: {}
 
@@ -4084,6 +4185,10 @@ snapshots:
       lower-case: 2.0.2
       tslib: 2.8.1
 
+  node-fetch@2.7.0:
+    dependencies:
+      whatwg-url: 5.0.0
+
   normalize-path@3.0.0: {}
 
   oauth4webapi@3.1.3: {}
@@ -4653,6 +4758,8 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
+  tr46@0.0.3: {}
+
   traverse@0.6.10:
     dependencies:
       gopd: 1.1.0
@@ -4664,6 +4771,8 @@ snapshots:
       typescript: 5.7.2
 
   ts-interface-checker@0.1.13: {}
+
+  ts-japi@1.11.4: {}
 
   ts-morph@16.0.0:
     dependencies:
@@ -4758,6 +4867,8 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
+  url-pattern@1.0.3: {}
+
   util-deprecate@1.0.2: {}
 
   uuid@9.0.1: {}
@@ -4803,6 +4914,13 @@ snapshots:
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
+
+  webidl-conversions@3.0.1: {}
+
+  whatwg-url@5.0.0:
+    dependencies:
+      tr46: 0.0.3
+      webidl-conversions: 3.0.1
 
   which-boxed-primitive@1.0.2:
     dependencies:
