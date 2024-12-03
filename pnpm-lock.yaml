@@ -29,6 +29,9 @@ importers:
       '@trpc/server':
         specifier: ^11.0.0-rc.446
         version: 11.0.0-rc.648(typescript@5.7.2)
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
       '@zenstackhq/runtime':
         specifier: 2.9.4
         version: 2.9.4(@prisma/client@5.22.0(prisma@5.22.0))
@@ -512,6 +515,9 @@ packages:
 
   '@ts-morph/common@0.17.0':
     resolution: {integrity: sha512-RMSSvSfs9kb0VzkvQ2NWobwnj7TxCA9vI/IjR9bDHqgAyVbu2T0DN4wiKVqomyDWqO7dPr/tErSfq7urQ1Q37g==}
+
+  '@types/bcryptjs@2.4.6':
+    resolution: {integrity: sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==}
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -2716,6 +2722,8 @@ snapshots:
       minimatch: 5.1.6
       mkdirp: 1.0.4
       path-browserify: 1.0.1
+
+  '@types/bcryptjs@2.4.6': {}
 
   '@types/cookie@0.6.0': {}
 
