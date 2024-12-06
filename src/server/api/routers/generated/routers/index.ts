@@ -11,6 +11,8 @@ import createAccountRouter from "./Account.router";
 import createSessionRouter from "./Session.router";
 import createUserRouter from "./User.router";
 import createVerificationTokenRouter from "./VerificationToken.router";
+import createProductRouter from "./Product.router";
+import createcategoryRouter from "./category.router";
 
 export type BaseConfig = AnyRootConfig;
 
@@ -39,6 +41,8 @@ export function createRouter<Config extends BaseConfig>(router: RouterFactory<Co
         session: createSessionRouter(router, procedure),
         user: createUserRouter(router, procedure),
         verificationToken: createVerificationTokenRouter(router, procedure),
+        product: createProductRouter(router, procedure),
+        category: createcategoryRouter(router, procedure),
     }
     );
 }

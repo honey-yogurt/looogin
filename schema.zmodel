@@ -72,6 +72,7 @@ model User {
     updatedAt     DateTime  @updatedAt
     accounts      Account[]
     sessions      Session[]
+    products      Product[]
 
     @@allow('create', true)
     @@allow('read', auth().role == "ADMIN" || auth() == this)  // auth() 返回当前用户，判断当前用户是否是管理员或者被操作的对象（表中的那行）
@@ -85,4 +86,36 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+
+model Product {
+    id String @id @default(cuid())
+    name String // 商品名称
+    price Float // 商品单价
+    quantity Int @default(1) // 商品数量
+    description String // 商品描述
+    image String @url // 商品图片
+    status String @default("AVAILABLE") // AVAILABLE, SOLD 可用 售出
+    owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+    ownerId String // 商品拥有者
+    category String // 商品分类,大的分类
+    label String // 商品标签,各种标签，可以自定义的那种
+    wants Int // 商品心愿数，即多少人收藏
+    popularity Int // 商品热度，即多少人点进详情页，粗略计算下
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@allow('read', true) // 所有人可读
+    @@allow('create', auth() != null && ownerId == auth().id)  // 创建时检查 sellerId
+    @@allow('update,delete', auth() == owner) // 只有卖家可以更新和删除
+}
+
+// 商品分类
+model category {
+    id String @id @default(cuid())
+    name String // 分类名称
+    description String // 分类描述
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

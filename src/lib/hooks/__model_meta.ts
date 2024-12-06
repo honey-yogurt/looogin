@@ -172,6 +172,12 @@ const metadata = {
                     isDataModel: true,
                     isArray: true,
                     backLink: 'user',
+                }, products: {
+                    name: "products",
+                    type: "Product",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'owner',
                 },
             }
             , uniqueConstraints: {
@@ -212,10 +218,112 @@ const metadata = {
             ,
         }
         ,
+        product: {
+            name: 'Product', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, name: {
+                    name: "name",
+                    type: "String",
+                }, price: {
+                    name: "price",
+                    type: "Float",
+                }, quantity: {
+                    name: "quantity",
+                    type: "Int",
+                    attributes: [{ "name": "@default", "args": [{ "value": 1 }] }],
+                }, description: {
+                    name: "description",
+                    type: "String",
+                }, image: {
+                    name: "image",
+                    type: "String",
+                }, status: {
+                    name: "status",
+                    type: "String",
+                    attributes: [{ "name": "@default", "args": [{ "value": "AVAILABLE" }] }],
+                }, owner: {
+                    name: "owner",
+                    type: "User",
+                    isDataModel: true,
+                    backLink: 'products',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "ownerId" },
+                }, ownerId: {
+                    name: "ownerId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'owner',
+                }, category: {
+                    name: "category",
+                    type: "String",
+                }, label: {
+                    name: "label",
+                    type: "String",
+                }, wants: {
+                    name: "wants",
+                    type: "Int",
+                }, popularity: {
+                    name: "popularity",
+                    type: "Int",
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                },
+            }
+            ,
+        }
+        ,
+        category: {
+            name: 'category', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, name: {
+                    name: "name",
+                    type: "String",
+                }, description: {
+                    name: "description",
+                    type: "String",
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                },
+            }
+            ,
+        }
+        ,
     }
     ,
     deleteCascade: {
-        user: ['Account', 'Session'],
+        user: ['Account', 'Session', 'Product'],
     }
     ,
     authModel: 'User'

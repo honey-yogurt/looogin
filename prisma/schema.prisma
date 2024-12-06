@@ -51,6 +51,7 @@ model User {
   updatedAt     DateTime  @updatedAt()
   accounts      Account[]
   sessions      Session[]
+  products      Product[]
 }
 
 model VerificationToken {
@@ -59,4 +60,30 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Product {
+  id          String   @id() @default(cuid())
+  name        String
+  price       Float
+  quantity    Int      @default(1)
+  description String
+  image       String
+  status      String   @default("AVAILABLE")
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
+  category    String
+  label       String
+  wants       Int
+  popularity  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+}
+
+model category {
+  id          String   @id() @default(cuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
 }

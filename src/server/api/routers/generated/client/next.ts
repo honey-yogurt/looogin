@@ -13,6 +13,8 @@ import { ClientType as AccountClientType } from "./Account.next.type";
 import { ClientType as SessionClientType } from "./Session.next.type";
 import { ClientType as UserClientType } from "./User.next.type";
 import { ClientType as VerificationTokenClientType } from "./VerificationToken.next.type";
+import { ClientType as ProductClientType } from "./Product.next.type";
+import { ClientType as CategoryClientType } from "./Category.next.type";
 
 export function createTRPCNext<
     TRouter extends AnyRouter,
@@ -29,4 +31,6 @@ export interface ClientType<AppRouter extends AnyRouter> {
     session: SessionClientType<AppRouter>;
     user: UserClientType<AppRouter>;
     verificationToken: VerificationTokenClientType<AppRouter>;
+    product: ProductClientType<AppRouter>;
+    category: CategoryClientType<AppRouter>;
 }
