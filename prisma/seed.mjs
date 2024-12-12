@@ -22,8 +22,8 @@ async function main() {
     where: { email: 'user@example.com' },
     update: {},
     create: {
-      email: 'user@example.com',
-      name: '测试用户',
+      email: 'user11@example.com',
+      name: '测试用户11',
       password: await hash('user123', 12),
       role: 'USER',
       image: 'https://img.tuxiangyan.com/uploads/allimg/210908/1_0ZP31Q3E48.jpg'
@@ -42,7 +42,7 @@ async function main() {
         status: 'AVAILABLE',
         ownerId: normalUser.id,
         category: '电子产品',
-        label: '手机,苹果,全新',
+        label: '个人闲置',
         wants: 10,
         popularity: 100
       }
@@ -57,7 +57,7 @@ async function main() {
         status: 'AVAILABLE',
         ownerId: normalUser.id,
         category: '电子产品',
-        label: '笔记本,苹果,二手',
+        label: 'BJD娃娃',
         wants: 15,
         popularity: 150
       }
@@ -70,9 +70,9 @@ async function main() {
         description: '全新耐克运动鞋，尺码42，黑色',
         image: 'https://img.alicdn.com/bao/uploaded/i4/O1CN01szBRUh1YT4UgdTJZ0_!!0-fleamarket.jpg_790x10000Q90.jpg_.webp',
         status: 'AVAILABLE',
-        ownerId: adminUser.id,
+        ownerId: normalUser.id,
         category: '服饰鞋包',
-        label: '运动鞋,耐克,全新',
+        label: 'BJD娃娃',
         wants: 5,
         popularity: 50
       }
@@ -87,7 +87,7 @@ async function main() {
           status: 'AVAILABLE',
           ownerId: normalUser.id,
           category: '电子产品',
-          label: '手机,小米,全新',
+          label: '猜你喜欢',
           wants: 10,
           popularity: 100
         }
@@ -102,7 +102,7 @@ async function main() {
           status: 'AVAILABLE',
           ownerId: normalUser.id,
           category: '电子产品',
-          label: '笔记本,戴尔,二手',
+          label: '猜你喜欢',
           wants: 15,
           popularity: 150
         }
@@ -115,9 +115,9 @@ async function main() {
           description: '国产帽子',
           image: 'https://img.alicdn.com/bao/uploaded/i4/O1CN01szBRUh1YT4UgdTJZ0_!!0-fleamarket.jpg_790x10000Q90.jpg_.webp',
           status: 'AVAILABLE',
-          ownerId: adminUser.id,
+          ownerId: normalUser.id,
           category: '服饰鞋包',
-          label: '帽子,国产,全新',
+          label: '个人闲置',
           wants: 5,
           popularity: 50
         }

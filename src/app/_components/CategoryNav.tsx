@@ -11,16 +11,18 @@ export function CategoryNav() {
   ]
 
   return (
-    <nav className="w-64 bg-white rounded-lg p-4">
-      {categories.map((category, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
-        >
-          <span>{category.icon}</span>
-          <span>{category.label}</span>
-        </div>
-      ))}
+    <nav className="w-64 bg-white rounded-lg p-4 h-[500px]">
+      <div className="space-y-2">
+        {categories.map((category, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
+          >
+            <span>{category.icon}</span>
+            <span>{category.label}</span>
+          </div>
+        ))}
+      </div>
     </nav>
   )
 } 

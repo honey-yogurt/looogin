@@ -75,7 +75,7 @@ model User {
     products      Product[]
 
     @@allow('create', true)
-    @@allow('read', auth().role == "ADMIN" || auth() == this)  // auth() 返回当前用户，判断当前用户是否是管理员或者被操作的对象（表中的那行）
+    @@allow('read', auth().role == "ADMIN" || auth() == this)  // auth() 返回当前用户，判断当前用户是否是管理员或者被���作的对象（表中的那行）
     @@allow('update', auth().role == "ADMIN" || auth() == this)
     @@allow('delete', auth().role == "ADMIN")
 }
@@ -109,6 +109,7 @@ model Product {
     @@allow('read', true) // 所有人可读
     @@allow('create', auth() != null && ownerId == auth().id)  // 创建时检查 sellerId
     @@allow('update,delete', auth() == owner) // 只有卖家可以更新和删除
+    @@index([wants(sort: Desc)]) // 添加索引以优化排序查询
 }
 
 // 商品分类
