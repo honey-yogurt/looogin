@@ -3,32 +3,42 @@
 import { Card } from "@/components/ui/card"
 import { useState } from "react"
 import { useFindManyProduct } from "@/lib/hooks/product"
+import { useFindManylabel } from "@/lib/hooks/label"
 
 export function ProductGrid() {
   const [activeFilter, setActiveFilter] = useState("猜你喜欢")
   
+  // 查询标签数据
+  const { data: labels, isLoading: isLoadingLabels } = useFindManylabel({
+    orderBy: {
+      popularity: 'desc'
+    },
+    take: 11, // 只取前11个最热门的标签
+  })
+
+  // 组合filters数据
   const filters = [
     { label: "猜你喜欢", active: activeFilter === "猜你喜欢" },
-    { label: "个人闲置", active: activeFilter === "个人闲置" },
-    { label: "摄影摄像", active: activeFilter === "摄影摄像" },
-    // ... 其他筛选项
+    ...(labels?.map(label => ({
+      label: label.name,
+      active: activeFilter === label.name
+    })) || [])
   ]
 
   // 查询商品数据
-  const {data: products,isLoading} = useFindManyProduct({
+  const {data: products, isLoading: isLoadingProducts} = useFindManyProduct({
     where: {
-      label: activeFilter === '猜你喜欢' ? undefined : activeFilter // 如果是“猜你喜欢”，则不使用 label 过滤
+      label: activeFilter === '猜你喜欢' ? undefined : activeFilter
     },
     orderBy: activeFilter === '猜你喜欢' 
-      ? { popularity: 'desc' } // 根据 popularity 排序
-      : { wants: 'desc' }, // 否则根据 wants 排序
-    // 包含用户信息
+      ? { popularity: 'desc' }
+      : { wants: 'desc' },
     include: {
       owner: true
     },
   })
 
-  if (isLoading) {
+  if (isLoadingLabels || isLoadingProducts) {
     return <div>加载中...</div>
   }
 

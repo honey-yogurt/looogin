@@ -130,4 +130,6 @@ model label {
     popularity Int @default(0) // 标签热度 新增商品时候，以及手动打标签时候 没有的话就新增并+1，有的话就+1
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@allow('read', true)
 }
