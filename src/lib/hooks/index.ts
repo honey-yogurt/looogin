@@ -11,6 +11,7 @@ export * from './user';
 export * from './verification-token';
 export * from './product';
 export * from './category';
+export * from './label';
 export { getQueryKey } from '@zenstackhq/tanstack-query/runtime-v5';
 export { Provider } from '@zenstackhq/tanstack-query/runtime-v5/react';
 export { default as metadata } from './__model_meta';

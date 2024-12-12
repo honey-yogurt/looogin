@@ -328,7 +328,7 @@ export function useSuspenseCountcategory<TArgs extends Prisma.categoryCountArgs,
     return useSuspenseModelQuery<TQueryFnData, TData, TError>('category', `${endpoint}/category/count`, args, options, fetch);
 }
 
-export function useCheckcategory<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; name?: string; description?: string }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
+export function useCheckcategory<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; name?: string; description?: string; parentId?: string }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
     return useModelQuery<boolean, boolean, TError>('category', `${endpoint}/category/check`, args, options, fetch);
 }

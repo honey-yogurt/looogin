@@ -257,8 +257,8 @@ const metadata = {
                     type: "String",
                     isForeignKey: true,
                     relationField: 'owner',
-                }, category: {
-                    name: "category",
+                }, categoryId: {
+                    name: "categoryId",
                     type: "String",
                 }, label: {
                     name: "label",
@@ -301,6 +301,27 @@ const metadata = {
                 }, description: {
                     name: "description",
                     type: "String",
+                    isOptional: true,
+                }, parentId: {
+                    name: "parentId",
+                    type: "String",
+                    isOptional: true,
+                    isForeignKey: true,
+                    relationField: 'parent',
+                }, parent: {
+                    name: "parent",
+                    type: "category",
+                    isDataModel: true,
+                    isOptional: true,
+                    backLink: 'subCategories',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "parentId" },
+                }, subCategories: {
+                    name: "subCategories",
+                    type: "category",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'parent',
                 }, createdAt: {
                     name: "createdAt",
                     type: "DateTime",
@@ -315,6 +336,42 @@ const metadata = {
                 id: {
                     name: "id",
                     fields: ["id"]
+                },
+            }
+            ,
+        }
+        ,
+        label: {
+            name: 'label', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, name: {
+                    name: "name",
+                    type: "String",
+                }, popularity: {
+                    name: "popularity",
+                    type: "Int",
+                    attributes: [{ "name": "@default", "args": [{ "value": 0 }] }],
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                }, name: {
+                    name: "name",
+                    fields: ["name"]
                 },
             }
             ,

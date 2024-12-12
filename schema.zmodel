@@ -26,11 +26,11 @@ plugin hooks {
   output = "./src/lib/hooks"
 }
 
-plugin trpc {
-  provider = '@zenstackhq/trpc'
-  output = 'src/server/api/routers/generated'
-  generateClientHelpers = 'next'
-}
+// plugin trpc {
+//   provider = '@zenstackhq/trpc'
+//   output = 'src/server/api/routers/generated'
+//   generateClientHelpers = 'next'
+// }
 
 // Necessary for Next auth
 model Account {
@@ -75,7 +75,7 @@ model User {
     products      Product[]
 
     @@allow('create', true)
-    @@allow('read', auth().role == "ADMIN" || auth() == this)  // auth() 返回当前用户，判断当前用户是否是管理员或者被���作的对象（表中的那行）
+    @@allow('read', auth().role == "ADMIN" || auth() == this)  // auth() 返回当前用户，判断当前用户是否是管理员或者被操作的对象（表中的那行）
     @@allow('update', auth().role == "ADMIN" || auth() == this)
     @@allow('delete', auth().role == "ADMIN")
 }
@@ -99,7 +99,7 @@ model Product {
     status String @default("AVAILABLE") // AVAILABLE, SOLD 可用 售出
     owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
     ownerId String // 商品拥有者
-    category String // 商品分类,大的分类
+    categoryId String // 商品分类ID
     label String // 商品标签,各种标签，可以自定义的那种
     wants Int // 商品心愿数，即多少人收藏
     popularity Int // 商品热度，即多少人点进详情页，粗略计算下
@@ -107,7 +107,7 @@ model Product {
     updatedAt DateTime @updatedAt
 
     @@allow('read', true) // 所有人可读
-    @@allow('create', auth() != null && ownerId == auth().id)  // 创建时检查 sellerId
+    @@allow('create', auth() != null && ownerId == auth().id)  // 创建时检查 ownerId
     @@allow('update,delete', auth() == owner) // 只有卖家可以更新和删除
     @@index([wants(sort: Desc)]) // 添加索引以优化排序查询
 }
@@ -116,7 +116,18 @@ model Product {
 model category {
     id String @id @default(cuid())
     name String // 分类名称
-    description String // 分类描述
+    description String? // 分类描述
+    parentId String? // 父分类ID
+    parent category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
+    subCategories category[] @relation("CategoryHierarchy")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model label {
+    id String @id @default(cuid())
+    name String @unique // 标签名称唯一
+    popularity Int @default(0) // 标签热度 新增商品时候，以及手动打标签时候 没有的话就新增并+1，有的话就+1
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

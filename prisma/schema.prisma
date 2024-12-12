@@ -72,18 +72,31 @@ model Product {
   status      String   @default("AVAILABLE")
   owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String
-  category    String
+  categoryId  String
   label       String
   wants       Int
   popularity  Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt()
+
+  @@index([wants(sort: Desc)])
 }
 
 model category {
-  id          String   @id() @default(cuid())
-  name        String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt()
+  id            String     @id() @default(cuid())
+  name          String
+  description   String?
+  parentId      String?
+  parent        category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  subCategories category[] @relation("CategoryHierarchy")
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt()
+}
+
+model label {
+  id         String   @id() @default(cuid())
+  name       String   @unique()
+  popularity Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt()
 }

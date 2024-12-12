@@ -10,18 +10,18 @@ export function ProductGrid() {
   const filters = [
     { label: "猜你喜欢", active: activeFilter === "猜你喜欢" },
     { label: "个人闲置", active: activeFilter === "个人闲置" },
-    { label: "BJD娃娃", active: activeFilter === "BJD娃娃" },
+    { label: "摄影摄像", active: activeFilter === "摄影摄像" },
     // ... 其他筛选项
   ]
 
   // 查询商品数据
   const {data: products,isLoading} = useFindManyProduct({
     where: {
-      label: activeFilter
+      label: activeFilter === '猜你喜欢' ? undefined : activeFilter // 如果是“猜你喜欢”，则不使用 label 过滤
     },
-    orderBy: {
-      wants: 'desc'
-    },
+    orderBy: activeFilter === '猜你喜欢' 
+      ? { popularity: 'desc' } // 根据 popularity 排序
+      : { wants: 'desc' }, // 否则根据 wants 排序
     // 包含用户信息
     include: {
       owner: true
