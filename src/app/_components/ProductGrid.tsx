@@ -3,28 +3,11 @@
 import { Card } from "@/components/ui/card"
 import { useState } from "react"
 import { useFindManyProduct } from "@/lib/hooks/product"
-import { useFindManylabel } from "@/lib/hooks/label"
 import type { Product, User } from "@prisma/client"
+import { FilterBar } from "./FilterBar"
 
 export function ProductGrid() {
   const [activeFilter, setActiveFilter] = useState("猜你喜欢")
-  
-  // 查询标签数据
-  const { data: labels, isLoading: isLoadingLabels } = useFindManylabel({
-    orderBy: {
-      popularity: 'desc'
-    },
-    take: 11, // 只取前11个最热门的标签
-  })
-
-  // 组合filters数据
-  const filters = [
-    { label: "猜你喜欢", active: activeFilter === "猜你喜欢" },
-    ...(labels?.map(label => ({
-      label: label.name,
-      active: activeFilter === label.name
-    })) || [])
-  ]
 
   // 查询商品数据
   const {data: products, isLoading: isLoadingProducts} = useFindManyProduct({
@@ -39,30 +22,16 @@ export function ProductGrid() {
     },
   })
 
-  if (isLoadingLabels || isLoadingProducts) {
+  if (isLoadingProducts) {
     return <div>加载中...</div>
   }
 
   return (
     <div>
-      {/* 筛选栏 */}
-      <div className="bg-white rounded-lg mb-4 p-4">
-        <div className="flex items-center gap-4 overflow-x-auto pb-2">
-          {filters.map((filter, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveFilter(filter.label)}
-              className={`px-4 py-1 rounded-full whitespace-nowrap text-sm transition-colors
-                ${filter.label === activeFilter 
-                  ? 'bg-yellow-400 text-black font-medium' 
-                  : 'hover:bg-gray-100'
-                }`}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      <FilterBar 
+        activeFilter={activeFilter}
+        onFilterChange={setActiveFilter}
+      />
 
       {/* 商品网格 */}
       <div className="grid grid-cols-5 gap-4">
