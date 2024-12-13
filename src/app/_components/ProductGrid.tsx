@@ -5,11 +5,12 @@ import { useState } from "react"
 import { useFindManyProduct } from "@/lib/hooks/product"
 import type { Product, User } from "@prisma/client"
 import { FilterBar } from "./FilterBar"
+import { useRouter } from "next/navigation"
 
 export function ProductGrid() {
+  const router = useRouter()
   const [activeFilter, setActiveFilter] = useState("猜你喜欢")
 
-  // 查询商品数据
   const {data: products, isLoading: isLoadingProducts} = useFindManyProduct({
     where: {
       label: activeFilter === '猜你喜欢' ? undefined : activeFilter
@@ -33,12 +34,15 @@ export function ProductGrid() {
         onFilterChange={setActiveFilter}
       />
 
-      {/* 商品网格 */}
       <div className="grid grid-cols-5 gap-4">
         {products?.map((product: Product & { 
           owner: User 
         }) => (
-          <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          <Card 
+            key={product.id} 
+            className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => router.push(`/products/${product.id}`)}
+          >
             <img 
               src={product.image}
               alt={product.name}
