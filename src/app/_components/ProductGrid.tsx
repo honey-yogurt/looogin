@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { useState } from "react"
 import { useFindManyProduct } from "@/lib/hooks/product"
 import { useFindManylabel } from "@/lib/hooks/label"
+import type { Product, User } from "@prisma/client"
 
 export function ProductGrid() {
   const [activeFilter, setActiveFilter] = useState("猜你喜欢")
@@ -65,7 +66,9 @@ export function ProductGrid() {
 
       {/* 商品网格 */}
       <div className="grid grid-cols-5 gap-4">
-        {products?.map((product) => (
+        {products?.map((product: Product & { 
+          owner: User 
+        }) => (
           <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
             <img 
               src={product.image}
