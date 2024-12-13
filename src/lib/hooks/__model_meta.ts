@@ -228,6 +228,9 @@ const metadata = {
                 }, name: {
                     name: "name",
                     type: "String",
+                }, oprice: {
+                    name: "oprice",
+                    type: "Float",
                 }, price: {
                     name: "price",
                     type: "Float",
@@ -240,6 +243,15 @@ const metadata = {
                     type: "String",
                 }, image: {
                     name: "image",
+                    type: "String",
+                }, detailImages: {
+                    name: "detailImages",
+                    type: "ProductImage",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'product',
+                }, depreciation: {
+                    name: "depreciation",
                     type: "String",
                 }, status: {
                     name: "status",
@@ -269,6 +281,61 @@ const metadata = {
                 }, popularity: {
                     name: "popularity",
                     type: "Int",
+                }, attributes: {
+                    name: "attributes",
+                    type: "productAttribute",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'product',
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                },
+            }
+            ,
+        }
+        ,
+        productImage: {
+            name: 'ProductImage', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, url: {
+                    name: "url",
+                    type: "String",
+                }, description: {
+                    name: "description",
+                    type: "String",
+                    isOptional: true,
+                }, order: {
+                    name: "order",
+                    type: "Int",
+                    attributes: [{ "name": "@default", "args": [{ "value": 0 }] }],
+                }, product: {
+                    name: "product",
+                    type: "Product",
+                    isDataModel: true,
+                    backLink: 'detailImages',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "productId" },
+                }, productId: {
+                    name: "productId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'product',
                 }, createdAt: {
                     name: "createdAt",
                     type: "DateTime",
@@ -322,6 +389,12 @@ const metadata = {
                     isDataModel: true,
                     isArray: true,
                     backLink: 'parent',
+                }, attributes: {
+                    name: "attributes",
+                    type: "categoryAttribute",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'category',
                 }, createdAt: {
                     name: "createdAt",
                     type: "DateTime",
@@ -377,10 +450,107 @@ const metadata = {
             ,
         }
         ,
+        categoryAttribute: {
+            name: 'categoryAttribute', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, name: {
+                    name: "name",
+                    type: "String",
+                }, category: {
+                    name: "category",
+                    type: "category",
+                    isDataModel: true,
+                    backLink: 'attributes',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "categoryId" },
+                }, categoryId: {
+                    name: "categoryId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'category',
+                }, order: {
+                    name: "order",
+                    type: "Int",
+                    attributes: [{ "name": "@default", "args": [{ "value": 0 }] }],
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                }, categoryId_name: {
+                    name: "categoryId_name",
+                    fields: ["categoryId", "name"]
+                },
+            }
+            ,
+        }
+        ,
+        productAttribute: {
+            name: 'productAttribute', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, name: {
+                    name: "name",
+                    type: "String",
+                }, value: {
+                    name: "value",
+                    type: "String",
+                }, product: {
+                    name: "product",
+                    type: "Product",
+                    isDataModel: true,
+                    backLink: 'attributes',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "productId" },
+                }, productId: {
+                    name: "productId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'product',
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                }, productId_name: {
+                    name: "productId_name",
+                    fields: ["productId", "name"]
+                },
+            }
+            ,
+        }
+        ,
     }
     ,
     deleteCascade: {
         user: ['Account', 'Session', 'Product'],
+        product: ['ProductImage', 'productAttribute'],
+        category: ['categoryAttribute'],
     }
     ,
     authModel: 'User'

@@ -98,6 +98,7 @@ model Product {
     description String // 商品描述
     image String @url // 商品主图
     detailImages ProductImage[] // 商品详情图片，可以包含各个角度的拍照，也可以包含原价的购买订单等
+    depreciation String // 商品折旧情况 全新，次新，明显使用痕迹，严重使用痕迹
     status String @default("AVAILABLE") // AVAILABLE, SOLD 可用 售出
     owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
     ownerId String // 商品拥有者
@@ -105,6 +106,7 @@ model Product {
     label String // 商品标签,各种标签，可以自定义的那种
     wants Int // 商品心愿数，即多少人收藏
     popularity Int // 商品热度，即多少人点进详情页，粗略计算下
+    attributes productAttribute[] // 商品属性值列表
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -138,6 +140,7 @@ model category {
     parentId String? // 父分类ID
     parent category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
     subCategories category[] @relation("CategoryHierarchy")
+    attributes categoryAttribute[] // 该分类的属性定义列表
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
@@ -150,4 +153,34 @@ model label {
     updatedAt DateTime @updatedAt
 
     @@allow('read', true)
+}
+
+// 分类的属性定义
+model categoryAttribute {
+    id String @id @default(cuid())
+    name String // 属性名称，如"品牌"、"成色"等
+    category category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    categoryId String
+    order Int @default(0) // 显示顺序
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@allow('read', true)
+    @@allow('create,update,delete', auth().role == "ADMIN")
+    @@unique([categoryId, name])
+}
+
+// 商品属性值
+model productAttribute {
+    id String @id @default(cuid())
+    name String // 属性名称
+    value String // 属性值
+    product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@allow('read', true)
+    @@allow('create,update,delete', auth() == product.owner)
+    @@unique([productId, name])
 }

@@ -63,34 +63,52 @@ model VerificationToken {
 }
 
 model Product {
-  id          String   @id() @default(cuid())
-  name        String
-  price       Float
-  quantity    Int      @default(1)
-  description String
-  image       String
-  status      String   @default("AVAILABLE")
-  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     String
-  categoryId  String
-  label       String
-  wants       Int
-  popularity  Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt()
+  id           String             @id() @default(cuid())
+  name         String
+  oprice       Float
+  price        Float
+  quantity     Int                @default(1)
+  description  String
+  image        String
+  detailImages ProductImage[]
+  depreciation String
+  status       String             @default("AVAILABLE")
+  owner        User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId      String
+  categoryId   String
+  label        String
+  wants        Int
+  popularity   Int
+  attributes   productAttribute[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt()
 
   @@index([wants(sort: Desc)])
 }
 
+model ProductImage {
+  id          String   @id() @default(cuid())
+  url         String
+  description String?
+  order       Int      @default(0)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+
+  @@index([productId, order])
+}
+
 model category {
-  id            String     @id() @default(cuid())
+  id            String              @id() @default(cuid())
   name          String
   description   String?
   parentId      String?
-  parent        category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
-  subCategories category[] @relation("CategoryHierarchy")
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt()
+  parent        category?           @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  subCategories category[]          @relation("CategoryHierarchy")
+  attributes    categoryAttribute[]
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt()
 }
 
 model label {
@@ -99,4 +117,28 @@ model label {
   popularity Int      @default(0)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt()
+}
+
+model categoryAttribute {
+  id         String   @id() @default(cuid())
+  name       String
+  category   category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt()
+
+  @@unique([categoryId, name])
+}
+
+model productAttribute {
+  id        String   @id() @default(cuid())
+  name      String
+  value     String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@unique([productId, name])
 }
