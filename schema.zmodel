@@ -92,10 +92,12 @@ model VerificationToken {
 model Product {
     id String @id @default(cuid())
     name String // 商品名称
+    oprice Float // 商品原价
     price Float // 商品单价
     quantity Int @default(1) // 商品数量
     description String // 商品描述
-    image String @url // 商品图片
+    image String @url // 商品主图
+    detailImages ProductImage[] // 商品详情图片，可以包含各个角度的拍照，也可以包含原价的购买订单等
     status String @default("AVAILABLE") // AVAILABLE, SOLD 可用 售出
     owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
     ownerId String // 商品拥有者
@@ -110,6 +112,22 @@ model Product {
     @@allow('create', auth() != null && ownerId == auth().id)  // 创建时检查 ownerId
     @@allow('update,delete', auth() == owner) // 只有卖家可以更新和删除
     @@index([wants(sort: Desc)]) // 添加索引以优化排序查询
+}
+
+// 新增 ProductImage 模型用于存储详情图片
+model ProductImage {
+    id String @id @default(cuid())
+    url String @url // 图片链接
+    description String? // 图片描述
+    order Int @default(0) // 图片顺序，用于在详情页排序展示
+    product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@allow('read', true)
+    @@allow('create,update,delete', auth() == product.owner)
+    @@index([productId, order])
 }
 
 // 商品分类
