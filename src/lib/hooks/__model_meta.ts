@@ -178,6 +178,24 @@ const metadata = {
                     isDataModel: true,
                     isArray: true,
                     backLink: 'owner',
+                }, sentMessages: {
+                    name: "sentMessages",
+                    type: "Message",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'sender',
+                }, sentChats: {
+                    name: "sentChats",
+                    type: "ChatRoom",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'sender',
+                }, receivedChats: {
+                    name: "receivedChats",
+                    type: "ChatRoom",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'receiver',
                 },
             }
             , uniqueConstraints: {
@@ -284,7 +302,7 @@ const metadata = {
                     type: "Int",
                 }, attributes: {
                     name: "attributes",
-                    type: "productAttribute",
+                    type: "ProductAttribute",
                     isDataModel: true,
                     isArray: true,
                     backLink: 'product',
@@ -296,6 +314,12 @@ const metadata = {
                     name: "updatedAt",
                     type: "DateTime",
                     attributes: [{ "name": "@updatedAt", "args": [] }],
+                }, chatRooms: {
+                    name: "chatRooms",
+                    type: "ChatRoom",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'product',
                 },
             }
             , uniqueConstraints: {
@@ -357,7 +381,7 @@ const metadata = {
         }
         ,
         category: {
-            name: 'category', fields: {
+            name: 'Category', fields: {
                 id: {
                     name: "id",
                     type: "String",
@@ -378,7 +402,7 @@ const metadata = {
                     relationField: 'parent',
                 }, parent: {
                     name: "parent",
-                    type: "category",
+                    type: "Category",
                     isDataModel: true,
                     isOptional: true,
                     backLink: 'subCategories',
@@ -386,13 +410,13 @@ const metadata = {
                     foreignKeyMapping: { "id": "parentId" },
                 }, subCategories: {
                     name: "subCategories",
-                    type: "category",
+                    type: "Category",
                     isDataModel: true,
                     isArray: true,
                     backLink: 'parent',
                 }, attributes: {
                     name: "attributes",
-                    type: "categoryAttribute",
+                    type: "CategoryAttribute",
                     isDataModel: true,
                     isArray: true,
                     backLink: 'category',
@@ -416,7 +440,7 @@ const metadata = {
         }
         ,
         label: {
-            name: 'label', fields: {
+            name: 'Label', fields: {
                 id: {
                     name: "id",
                     type: "String",
@@ -452,7 +476,7 @@ const metadata = {
         }
         ,
         categoryAttribute: {
-            name: 'categoryAttribute', fields: {
+            name: 'CategoryAttribute', fields: {
                 id: {
                     name: "id",
                     type: "String",
@@ -463,7 +487,7 @@ const metadata = {
                     type: "String",
                 }, category: {
                     name: "category",
-                    type: "category",
+                    type: "Category",
                     isDataModel: true,
                     backLink: 'attributes',
                     isRelationOwner: true,
@@ -500,7 +524,7 @@ const metadata = {
         }
         ,
         productAttribute: {
-            name: 'productAttribute', fields: {
+            name: 'ProductAttribute', fields: {
                 id: {
                     name: "id",
                     type: "String",
@@ -546,12 +570,160 @@ const metadata = {
             ,
         }
         ,
+        chatRoom: {
+            name: 'ChatRoom', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                }, product: {
+                    name: "product",
+                    type: "Product",
+                    isDataModel: true,
+                    backLink: 'chatRooms',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "productId" },
+                }, productId: {
+                    name: "productId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'product',
+                }, sender: {
+                    name: "sender",
+                    type: "User",
+                    isDataModel: true,
+                    backLink: 'sentChats',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "senderId" },
+                }, senderId: {
+                    name: "senderId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'sender',
+                }, receiver: {
+                    name: "receiver",
+                    type: "User",
+                    isDataModel: true,
+                    backLink: 'receivedChats',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "receiverId" },
+                }, receiverId: {
+                    name: "receiverId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'receiver',
+                }, lastMessage: {
+                    name: "lastMessage",
+                    type: "String",
+                    isOptional: true,
+                }, senderUnread: {
+                    name: "senderUnread",
+                    type: "Int",
+                    attributes: [{ "name": "@default", "args": [{ "value": 0 }] }],
+                }, receiverUnread: {
+                    name: "receiverUnread",
+                    type: "Int",
+                    attributes: [{ "name": "@default", "args": [{ "value": 0 }] }],
+                }, messages: {
+                    name: "messages",
+                    type: "Message",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'chatRoom',
+                }, status: {
+                    name: "status",
+                    type: "String",
+                    attributes: [{ "name": "@default", "args": [{ "value": "ACTIVE" }] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                }, senderId_receiverId_productId: {
+                    name: "senderId_receiverId_productId",
+                    fields: ["senderId", "receiverId", "productId"]
+                },
+            }
+            ,
+        }
+        ,
+        message: {
+            name: 'Message', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, content: {
+                    name: "content",
+                    type: "String",
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, sender: {
+                    name: "sender",
+                    type: "User",
+                    isDataModel: true,
+                    backLink: 'sentMessages',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "senderId" },
+                }, senderId: {
+                    name: "senderId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'sender',
+                }, chatRoom: {
+                    name: "chatRoom",
+                    type: "ChatRoom",
+                    isDataModel: true,
+                    backLink: 'messages',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "chatRoomId" },
+                }, chatRoomId: {
+                    name: "chatRoomId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'chatRoom',
+                }, isRead: {
+                    name: "isRead",
+                    type: "Boolean",
+                    attributes: [{ "name": "@default", "args": [{ "value": false }] }],
+                }, type: {
+                    name: "type",
+                    type: "String",
+                    attributes: [{ "name": "@default", "args": [{ "value": "TEXT" }] }],
+                }, status: {
+                    name: "status",
+                    type: "String",
+                    attributes: [{ "name": "@default", "args": [{ "value": "SENT" }] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                },
+            }
+            ,
+        }
+        ,
     }
     ,
     deleteCascade: {
         user: ['Account', 'Session', 'Product'],
-        product: ['ProductImage', 'productAttribute'],
-        category: ['categoryAttribute'],
+        product: ['ProductImage', 'ProductAttribute'],
+        category: ['CategoryAttribute'],
     }
     ,
     authModel: 'User'

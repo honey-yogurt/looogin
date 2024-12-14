@@ -2,7 +2,11 @@
 
 import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
-import type { Product, User, productAttribute as ProductAttribute } from "@prisma/client"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { useCreateChatRoom, useFindFirstChatRoom } from "@/lib/hooks"
+import { toast } from "sonner"
+import type { Product, User, ProductAttribute } from "@prisma/client"
 
 interface ProductInfoProps {
   product: Product & {
@@ -12,6 +16,91 @@ interface ProductInfoProps {
 }
 
 export function ProductInfo({ product }: ProductInfoProps) {
+  const { data: session, status: sessionStatus } = useSession()
+  const router = useRouter()
+  const { mutateAsync: createChatRoom } = useCreateChatRoom()
+  
+  // 添加日志查看 session 信息
+  console.log('Session Info:', {
+    status: sessionStatus,
+    userId: session?.user?.id,
+    user: session?.user
+  })
+  
+  // 查找现有聊天室
+  const { data: existingRoom } = useFindFirstChatRoom({
+    where: {
+      AND: [
+        { productId: product.id },
+        {
+          OR: [
+            { 
+              senderId: session?.user?.id || '',
+              receiverId: product.ownerId
+            },
+            { 
+              senderId: product.ownerId,
+              receiverId: session?.user?.id || ''
+            }
+          ]
+        }
+      ]
+    }
+  })
+
+  const handleContact = async () => {
+    // 确保用户已登录且会话已加载完成
+    if (!session?.user?.id || sessionStatus !== 'authenticated') {
+      router.push('/signin')
+      return
+    }
+
+    // 添加日志查看创建聊天室的参数
+    console.log('Creating ChatRoom with:', {
+      senderId: session.user.id,
+      receiverId: product.ownerId,
+      productId: product.id
+    })
+
+    // 检查是否是自己的商品
+    if (session.user.id === product.ownerId) {
+      toast.error('不能和自己聊天')
+      return
+    }
+
+    try {
+      // 先检查现有聊天室
+      if (existingRoom) {
+        router.push(`/messages/${existingRoom.id}`)
+        return
+      }
+
+      // 创建新聊天室
+      const newRoom = await createChatRoom({
+        data: {
+          senderId: session.user.id,
+          receiverId: product.ownerId,
+          productId: product.id,
+          status: "ACTIVE",
+          lastMessage: `关于商品：${product.name}`
+        }
+      })
+
+      if (!newRoom?.id) {
+        throw new Error('创建聊天室失败')
+      }
+
+      router.push(`/messages/${newRoom.id}`)
+    } catch (error: any) {
+      console.error('创建聊天失败:', {
+        error,
+        sessionId: session.user.id,
+        sessionUser: session.user
+      })
+      toast.error('创建聊天失败，请稍后重试')
+    }
+  }
+
   return (
     <div className="flex-1">
       <h1 className="text-2xl font-medium mb-4">{product.name}</h1>
@@ -47,7 +136,13 @@ export function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       <div className="flex gap-4">
-        <Button className="flex-1">联系卖家</Button>
+        <Button 
+          className="flex-1"
+          onClick={handleContact}
+          disabled={sessionStatus !== 'authenticated'}
+        >
+          联系卖家
+        </Button>
         <Button className="flex-1" variant="secondary">立即购买</Button>
         <Button variant="outline" size="icon">
           <Heart className="h-4 w-4" />

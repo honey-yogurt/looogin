@@ -9,16 +9,55 @@ import type { User } from "@prisma/client";
 
 // create an enhanced Prisma client with user context
 async function getPrisma() {
-  // 使用 auth() 函数获取当前用户的会话信息。
   const session = await auth();
-  console.log("session", session);
-  // 创建一个增强的 Prisma 客户端，
-  // 这个增强的客户端可以在数据库操作中自动应用用户上下文，确保数据访问的安全性和正确性。
-  return enhance(db, { user: session?.user as User });
+  console.log("API Session:", session);
+  
+  if (!session?.user?.id) {
+    console.log("No user in session");
+    throw new Error("Unauthorized");
+  }
+
+  // 打印更多调试信息
+  console.log("Looking for user with ID:", session.user.id);
+
+  // 尝试查找用户，但不抛出错误
+  const user = await db.user.findUnique({
+    where: { id: session.user.id }
+  });
+
+  console.log("Found user:", user);
+
+  // 如果找不到用户，直接使用 session 中的用户信息
+  const contextUser = user || {
+    id: session.user.id,
+    email: session.user.email,
+    role: session.user.role
+  };
+
+  return enhance(db, { 
+    user: contextUser
+  });
 }
 
 // 创建一个通用的请求处理器 handler
-const handler = NextRequestHandler({ getPrisma, useAppDir: true });
+const handler = NextRequestHandler({ 
+  getPrisma, 
+  useAppDir: true,
+  onError: (err, req) => {
+    console.error("API Error:", {
+      error: err,
+      url: req.url,
+      method: req.method
+    });
+    return new Response(JSON.stringify({
+      error: err.message,
+      details: err
+    }), { 
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+});
 
 // 将 handler 作为多个 HTTP 方法的处理器导出，包括 GET、POST、PUT、PATCH 和 DELETE。
 // 这意味着这个文件可以处理所有这些方法的请求，并根据请求路径自动执行相应的数据库操作。

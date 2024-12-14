@@ -5,7 +5,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Prisma, productAttribute } from "@prisma/client";
+import type { Prisma, ProductAttribute } from "@prisma/client";
 import type { UseMutationOptions, UseQueryOptions, UseInfiniteQueryOptions, InfiniteData } from '@tanstack/react-query';
 import { getHooksContext } from '@zenstackhq/tanstack-query/runtime-v5/react';
 import { useModelQuery, useInfiniteModelQuery, useModelMutation } from '@zenstackhq/tanstack-query/runtime-v5/react';
@@ -16,118 +16,36 @@ type DefaultError = QueryError;
 import { useSuspenseModelQuery, useSuspenseInfiniteModelQuery } from '@zenstackhq/tanstack-query/runtime-v5/react';
 import type { UseSuspenseQueryOptions, UseSuspenseInfiniteQueryOptions } from '@tanstack/react-query';
 
-export function useCreateproductAttribute(options?: Omit<(UseMutationOptions<(productAttribute | undefined), DefaultError, Prisma.productAttributeCreateArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useCreateProductAttribute(options?: Omit<(UseMutationOptions<(ProductAttribute | undefined), DefaultError, Prisma.ProductAttributeCreateArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.productAttributeCreateArgs, DefaultError, productAttribute, true>('productAttribute', 'POST', `${endpoint}/productAttribute/create`, metadata, options, fetch, true)
+        useModelMutation<Prisma.ProductAttributeCreateArgs, DefaultError, ProductAttribute, true>('ProductAttribute', 'POST', `${endpoint}/productAttribute/create`, metadata, options, fetch, true)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.productAttributeCreateArgs>(
-            args: Prisma.SelectSubset<T, Prisma.productAttributeCreateArgs>,
-            options?: Omit<(UseMutationOptions<(CheckSelect<T, productAttribute, Prisma.productAttributeGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.productAttributeCreateArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.ProductAttributeCreateArgs>(
+            args: Prisma.SelectSubset<T, Prisma.ProductAttributeCreateArgs>,
+            options?: Omit<(UseMutationOptions<(CheckSelect<T, ProductAttribute, Prisma.ProductAttributeGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.ProductAttributeCreateArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
                 options as any
-            )) as (CheckSelect<T, productAttribute, Prisma.productAttributeGetPayload<T>> | undefined);
+            )) as (CheckSelect<T, ProductAttribute, Prisma.ProductAttributeGetPayload<T>> | undefined);
         },
     };
     return mutation;
 }
 
-export function useCreateManyproductAttribute(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.productAttributeCreateManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useCreateManyProductAttribute(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.ProductAttributeCreateManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.productAttributeCreateManyArgs, DefaultError, Prisma.BatchPayload, false>('productAttribute', 'POST', `${endpoint}/productAttribute/createMany`, metadata, options, fetch, false)
+        useModelMutation<Prisma.ProductAttributeCreateManyArgs, DefaultError, Prisma.BatchPayload, false>('ProductAttribute', 'POST', `${endpoint}/productAttribute/createMany`, metadata, options, fetch, false)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.productAttributeCreateManyArgs>(
-            args: Prisma.SelectSubset<T, Prisma.productAttributeCreateManyArgs>,
-            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.productAttributeCreateManyArgs>> & ExtraMutationOptions), 'mutationFn'>
-        ) => {
-            return (await _mutation.mutateAsync(
-                args,
-                options as any
-            )) as Prisma.BatchPayload;
-        },
-    };
-    return mutation;
-}
-
-export function useFindManyproductAttribute<TArgs extends Prisma.productAttributeFindManyArgs, TQueryFnData = Array<Prisma.productAttributeGetPayload<TArgs> & { $optimistic?: boolean }>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.productAttributeFindManyArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/findMany`, args, options, fetch);
-}
-
-export function useInfiniteFindManyproductAttribute<TArgs extends Prisma.productAttributeFindManyArgs, TQueryFnData = Array<Prisma.productAttributeGetPayload<TArgs>>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.productAttributeFindManyArgs>, options?: Omit<UseInfiniteQueryOptions<TQueryFnData, TError, InfiniteData<TData>>, 'queryKey' | 'initialPageParam'>) {
-    options = options ?? { getNextPageParam: () => null };
-    const { endpoint, fetch } = getHooksContext();
-    return useInfiniteModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/findMany`, args, options, fetch);
-}
-
-export function useSuspenseFindManyproductAttribute<TArgs extends Prisma.productAttributeFindManyArgs, TQueryFnData = Array<Prisma.productAttributeGetPayload<TArgs> & { $optimistic?: boolean }>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.productAttributeFindManyArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/findMany`, args, options, fetch);
-}
-
-export function useSuspenseInfiniteFindManyproductAttribute<TArgs extends Prisma.productAttributeFindManyArgs, TQueryFnData = Array<Prisma.productAttributeGetPayload<TArgs>>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.productAttributeFindManyArgs>, options?: Omit<UseSuspenseInfiniteQueryOptions<TQueryFnData, TError, InfiniteData<TData>>, 'queryKey' | 'initialPageParam'>) {
-    options = options ?? { getNextPageParam: () => null };
-    const { endpoint, fetch } = getHooksContext();
-    return useSuspenseInfiniteModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/findMany`, args, options, fetch);
-}
-
-export function useFindUniqueproductAttribute<TArgs extends Prisma.productAttributeFindUniqueArgs, TQueryFnData = Prisma.productAttributeGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.productAttributeFindUniqueArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/findUnique`, args, options, fetch);
-}
-
-export function useSuspenseFindUniqueproductAttribute<TArgs extends Prisma.productAttributeFindUniqueArgs, TQueryFnData = Prisma.productAttributeGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.productAttributeFindUniqueArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/findUnique`, args, options, fetch);
-}
-
-export function useFindFirstproductAttribute<TArgs extends Prisma.productAttributeFindFirstArgs, TQueryFnData = Prisma.productAttributeGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.productAttributeFindFirstArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/findFirst`, args, options, fetch);
-}
-
-export function useSuspenseFindFirstproductAttribute<TArgs extends Prisma.productAttributeFindFirstArgs, TQueryFnData = Prisma.productAttributeGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.productAttributeFindFirstArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/findFirst`, args, options, fetch);
-}
-
-export function useUpdateproductAttribute(options?: Omit<(UseMutationOptions<(productAttribute | undefined), DefaultError, Prisma.productAttributeUpdateArgs> & ExtraMutationOptions), 'mutationFn'>) {
-    const { endpoint, fetch } = getHooksContext();
-    const _mutation =
-        useModelMutation<Prisma.productAttributeUpdateArgs, DefaultError, productAttribute, true>('productAttribute', 'PUT', `${endpoint}/productAttribute/update`, metadata, options, fetch, true)
-        ;
-    const mutation = {
-        ..._mutation,
-        mutateAsync: async <T extends Prisma.productAttributeUpdateArgs>(
-            args: Prisma.SelectSubset<T, Prisma.productAttributeUpdateArgs>,
-            options?: Omit<(UseMutationOptions<(CheckSelect<T, productAttribute, Prisma.productAttributeGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.productAttributeUpdateArgs>> & ExtraMutationOptions), 'mutationFn'>
-        ) => {
-            return (await _mutation.mutateAsync(
-                args,
-                options as any
-            )) as (CheckSelect<T, productAttribute, Prisma.productAttributeGetPayload<T>> | undefined);
-        },
-    };
-    return mutation;
-}
-
-export function useUpdateManyproductAttribute(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.productAttributeUpdateManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
-    const { endpoint, fetch } = getHooksContext();
-    const _mutation =
-        useModelMutation<Prisma.productAttributeUpdateManyArgs, DefaultError, Prisma.BatchPayload, false>('productAttribute', 'PUT', `${endpoint}/productAttribute/updateMany`, metadata, options, fetch, false)
-        ;
-    const mutation = {
-        ..._mutation,
-        mutateAsync: async <T extends Prisma.productAttributeUpdateManyArgs>(
-            args: Prisma.SelectSubset<T, Prisma.productAttributeUpdateManyArgs>,
-            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.productAttributeUpdateManyArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.ProductAttributeCreateManyArgs>(
+            args: Prisma.SelectSubset<T, Prisma.ProductAttributeCreateManyArgs>,
+            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.ProductAttributeCreateManyArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
@@ -138,56 +56,138 @@ export function useUpdateManyproductAttribute(options?: Omit<(UseMutationOptions
     return mutation;
 }
 
-export function useUpsertproductAttribute(options?: Omit<(UseMutationOptions<(productAttribute | undefined), DefaultError, Prisma.productAttributeUpsertArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useFindManyProductAttribute<TArgs extends Prisma.ProductAttributeFindManyArgs, TQueryFnData = Array<Prisma.ProductAttributeGetPayload<TArgs> & { $optimistic?: boolean }>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeFindManyArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/findMany`, args, options, fetch);
+}
+
+export function useInfiniteFindManyProductAttribute<TArgs extends Prisma.ProductAttributeFindManyArgs, TQueryFnData = Array<Prisma.ProductAttributeGetPayload<TArgs>>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeFindManyArgs>, options?: Omit<UseInfiniteQueryOptions<TQueryFnData, TError, InfiniteData<TData>>, 'queryKey' | 'initialPageParam'>) {
+    options = options ?? { getNextPageParam: () => null };
+    const { endpoint, fetch } = getHooksContext();
+    return useInfiniteModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/findMany`, args, options, fetch);
+}
+
+export function useSuspenseFindManyProductAttribute<TArgs extends Prisma.ProductAttributeFindManyArgs, TQueryFnData = Array<Prisma.ProductAttributeGetPayload<TArgs> & { $optimistic?: boolean }>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeFindManyArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/findMany`, args, options, fetch);
+}
+
+export function useSuspenseInfiniteFindManyProductAttribute<TArgs extends Prisma.ProductAttributeFindManyArgs, TQueryFnData = Array<Prisma.ProductAttributeGetPayload<TArgs>>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeFindManyArgs>, options?: Omit<UseSuspenseInfiniteQueryOptions<TQueryFnData, TError, InfiniteData<TData>>, 'queryKey' | 'initialPageParam'>) {
+    options = options ?? { getNextPageParam: () => null };
+    const { endpoint, fetch } = getHooksContext();
+    return useSuspenseInfiniteModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/findMany`, args, options, fetch);
+}
+
+export function useFindUniqueProductAttribute<TArgs extends Prisma.ProductAttributeFindUniqueArgs, TQueryFnData = Prisma.ProductAttributeGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeFindUniqueArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/findUnique`, args, options, fetch);
+}
+
+export function useSuspenseFindUniqueProductAttribute<TArgs extends Prisma.ProductAttributeFindUniqueArgs, TQueryFnData = Prisma.ProductAttributeGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeFindUniqueArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/findUnique`, args, options, fetch);
+}
+
+export function useFindFirstProductAttribute<TArgs extends Prisma.ProductAttributeFindFirstArgs, TQueryFnData = Prisma.ProductAttributeGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeFindFirstArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/findFirst`, args, options, fetch);
+}
+
+export function useSuspenseFindFirstProductAttribute<TArgs extends Prisma.ProductAttributeFindFirstArgs, TQueryFnData = Prisma.ProductAttributeGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeFindFirstArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/findFirst`, args, options, fetch);
+}
+
+export function useUpdateProductAttribute(options?: Omit<(UseMutationOptions<(ProductAttribute | undefined), DefaultError, Prisma.ProductAttributeUpdateArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.productAttributeUpsertArgs, DefaultError, productAttribute, true>('productAttribute', 'POST', `${endpoint}/productAttribute/upsert`, metadata, options, fetch, true)
+        useModelMutation<Prisma.ProductAttributeUpdateArgs, DefaultError, ProductAttribute, true>('ProductAttribute', 'PUT', `${endpoint}/productAttribute/update`, metadata, options, fetch, true)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.productAttributeUpsertArgs>(
-            args: Prisma.SelectSubset<T, Prisma.productAttributeUpsertArgs>,
-            options?: Omit<(UseMutationOptions<(CheckSelect<T, productAttribute, Prisma.productAttributeGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.productAttributeUpsertArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.ProductAttributeUpdateArgs>(
+            args: Prisma.SelectSubset<T, Prisma.ProductAttributeUpdateArgs>,
+            options?: Omit<(UseMutationOptions<(CheckSelect<T, ProductAttribute, Prisma.ProductAttributeGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.ProductAttributeUpdateArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
                 options as any
-            )) as (CheckSelect<T, productAttribute, Prisma.productAttributeGetPayload<T>> | undefined);
+            )) as (CheckSelect<T, ProductAttribute, Prisma.ProductAttributeGetPayload<T>> | undefined);
         },
     };
     return mutation;
 }
 
-export function useDeleteproductAttribute(options?: Omit<(UseMutationOptions<(productAttribute | undefined), DefaultError, Prisma.productAttributeDeleteArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useUpdateManyProductAttribute(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.ProductAttributeUpdateManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.productAttributeDeleteArgs, DefaultError, productAttribute, true>('productAttribute', 'DELETE', `${endpoint}/productAttribute/delete`, metadata, options, fetch, true)
+        useModelMutation<Prisma.ProductAttributeUpdateManyArgs, DefaultError, Prisma.BatchPayload, false>('ProductAttribute', 'PUT', `${endpoint}/productAttribute/updateMany`, metadata, options, fetch, false)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.productAttributeDeleteArgs>(
-            args: Prisma.SelectSubset<T, Prisma.productAttributeDeleteArgs>,
-            options?: Omit<(UseMutationOptions<(CheckSelect<T, productAttribute, Prisma.productAttributeGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.productAttributeDeleteArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.ProductAttributeUpdateManyArgs>(
+            args: Prisma.SelectSubset<T, Prisma.ProductAttributeUpdateManyArgs>,
+            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.ProductAttributeUpdateManyArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
                 options as any
-            )) as (CheckSelect<T, productAttribute, Prisma.productAttributeGetPayload<T>> | undefined);
+            )) as Prisma.BatchPayload;
         },
     };
     return mutation;
 }
 
-export function useDeleteManyproductAttribute(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.productAttributeDeleteManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useUpsertProductAttribute(options?: Omit<(UseMutationOptions<(ProductAttribute | undefined), DefaultError, Prisma.ProductAttributeUpsertArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.productAttributeDeleteManyArgs, DefaultError, Prisma.BatchPayload, false>('productAttribute', 'DELETE', `${endpoint}/productAttribute/deleteMany`, metadata, options, fetch, false)
+        useModelMutation<Prisma.ProductAttributeUpsertArgs, DefaultError, ProductAttribute, true>('ProductAttribute', 'POST', `${endpoint}/productAttribute/upsert`, metadata, options, fetch, true)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.productAttributeDeleteManyArgs>(
-            args: Prisma.SelectSubset<T, Prisma.productAttributeDeleteManyArgs>,
-            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.productAttributeDeleteManyArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.ProductAttributeUpsertArgs>(
+            args: Prisma.SelectSubset<T, Prisma.ProductAttributeUpsertArgs>,
+            options?: Omit<(UseMutationOptions<(CheckSelect<T, ProductAttribute, Prisma.ProductAttributeGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.ProductAttributeUpsertArgs>> & ExtraMutationOptions), 'mutationFn'>
+        ) => {
+            return (await _mutation.mutateAsync(
+                args,
+                options as any
+            )) as (CheckSelect<T, ProductAttribute, Prisma.ProductAttributeGetPayload<T>> | undefined);
+        },
+    };
+    return mutation;
+}
+
+export function useDeleteProductAttribute(options?: Omit<(UseMutationOptions<(ProductAttribute | undefined), DefaultError, Prisma.ProductAttributeDeleteArgs> & ExtraMutationOptions), 'mutationFn'>) {
+    const { endpoint, fetch } = getHooksContext();
+    const _mutation =
+        useModelMutation<Prisma.ProductAttributeDeleteArgs, DefaultError, ProductAttribute, true>('ProductAttribute', 'DELETE', `${endpoint}/productAttribute/delete`, metadata, options, fetch, true)
+        ;
+    const mutation = {
+        ..._mutation,
+        mutateAsync: async <T extends Prisma.ProductAttributeDeleteArgs>(
+            args: Prisma.SelectSubset<T, Prisma.ProductAttributeDeleteArgs>,
+            options?: Omit<(UseMutationOptions<(CheckSelect<T, ProductAttribute, Prisma.ProductAttributeGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.ProductAttributeDeleteArgs>> & ExtraMutationOptions), 'mutationFn'>
+        ) => {
+            return (await _mutation.mutateAsync(
+                args,
+                options as any
+            )) as (CheckSelect<T, ProductAttribute, Prisma.ProductAttributeGetPayload<T>> | undefined);
+        },
+    };
+    return mutation;
+}
+
+export function useDeleteManyProductAttribute(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.ProductAttributeDeleteManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
+    const { endpoint, fetch } = getHooksContext();
+    const _mutation =
+        useModelMutation<Prisma.ProductAttributeDeleteManyArgs, DefaultError, Prisma.BatchPayload, false>('ProductAttribute', 'DELETE', `${endpoint}/productAttribute/deleteMany`, metadata, options, fetch, false)
+        ;
+    const mutation = {
+        ..._mutation,
+        mutateAsync: async <T extends Prisma.ProductAttributeDeleteManyArgs>(
+            args: Prisma.SelectSubset<T, Prisma.ProductAttributeDeleteManyArgs>,
+            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.ProductAttributeDeleteManyArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
@@ -208,7 +208,7 @@ export function useSuspenseAggregateProductAttribute<TArgs extends Prisma.Produc
     return useSuspenseModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/aggregate`, args, options, fetch);
 }
 
-export function useGroupByproductAttribute<TArgs extends Prisma.productAttributeGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<TArgs>>, Prisma.Extends<'take', Prisma.Keys<TArgs>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? { orderBy: Prisma.productAttributeGroupByArgs['orderBy'] } : { orderBy?: Prisma.productAttributeGroupByArgs['orderBy'] }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<TArgs['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<TArgs['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<TArgs['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends TArgs['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True
+export function useGroupByProductAttribute<TArgs extends Prisma.ProductAttributeGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<TArgs>>, Prisma.Extends<'take', Prisma.Keys<TArgs>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? { orderBy: Prisma.ProductAttributeGroupByArgs['orderBy'] } : { orderBy?: Prisma.ProductAttributeGroupByArgs['orderBy'] }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<TArgs['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<TArgs['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<TArgs['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends TArgs['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True
     ? `Error: "by" must not be empty.`
     : HavingValid extends Prisma.False
     ? {
@@ -258,12 +258,12 @@ export function useGroupByproductAttribute<TArgs extends Prisma.productAttribute
             : Prisma.GetScalarType<TArgs[P], Prisma.ProductAttributeGroupByOutputType[P]>
             : Prisma.GetScalarType<TArgs[P], Prisma.ProductAttributeGroupByOutputType[P]>
         }
-    > : InputErrors, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.SubsetIntersection<TArgs, Prisma.productAttributeGroupByArgs, OrderByArg> & InputErrors>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    > : InputErrors, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.SubsetIntersection<TArgs, Prisma.ProductAttributeGroupByArgs, OrderByArg> & InputErrors>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/groupBy`, args, options, fetch);
+    return useModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/groupBy`, args, options, fetch);
 }
 
-export function useSuspenseGroupByproductAttribute<TArgs extends Prisma.productAttributeGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<TArgs>>, Prisma.Extends<'take', Prisma.Keys<TArgs>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? { orderBy: Prisma.productAttributeGroupByArgs['orderBy'] } : { orderBy?: Prisma.productAttributeGroupByArgs['orderBy'] }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<TArgs['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<TArgs['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<TArgs['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends TArgs['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True
+export function useSuspenseGroupByProductAttribute<TArgs extends Prisma.ProductAttributeGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<TArgs>>, Prisma.Extends<'take', Prisma.Keys<TArgs>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? { orderBy: Prisma.ProductAttributeGroupByArgs['orderBy'] } : { orderBy?: Prisma.ProductAttributeGroupByArgs['orderBy'] }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<TArgs['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<TArgs['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<TArgs['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends TArgs['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True
     ? `Error: "by" must not be empty.`
     : HavingValid extends Prisma.False
     ? {
@@ -313,22 +313,22 @@ export function useSuspenseGroupByproductAttribute<TArgs extends Prisma.productA
             : Prisma.GetScalarType<TArgs[P], Prisma.ProductAttributeGroupByOutputType[P]>
             : Prisma.GetScalarType<TArgs[P], Prisma.ProductAttributeGroupByOutputType[P]>
         }
-    > : InputErrors, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.SubsetIntersection<TArgs, Prisma.productAttributeGroupByArgs, OrderByArg> & InputErrors>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    > : InputErrors, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.SubsetIntersection<TArgs, Prisma.ProductAttributeGroupByArgs, OrderByArg> & InputErrors>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/groupBy`, args, options, fetch);
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/groupBy`, args, options, fetch);
 }
 
-export function useCountproductAttribute<TArgs extends Prisma.productAttributeCountArgs, TQueryFnData = TArgs extends { select: any; } ? TArgs['select'] extends true ? number : Prisma.GetScalarType<TArgs['select'], Prisma.ProductAttributeCountAggregateOutputType> : number, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.productAttributeCountArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+export function useCountProductAttribute<TArgs extends Prisma.ProductAttributeCountArgs, TQueryFnData = TArgs extends { select: any; } ? TArgs['select'] extends true ? number : Prisma.GetScalarType<TArgs['select'], Prisma.ProductAttributeCountAggregateOutputType> : number, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeCountArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/count`, args, options, fetch);
+    return useModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/count`, args, options, fetch);
 }
 
-export function useSuspenseCountproductAttribute<TArgs extends Prisma.productAttributeCountArgs, TQueryFnData = TArgs extends { select: any; } ? TArgs['select'] extends true ? number : Prisma.GetScalarType<TArgs['select'], Prisma.ProductAttributeCountAggregateOutputType> : number, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.productAttributeCountArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+export function useSuspenseCountProductAttribute<TArgs extends Prisma.ProductAttributeCountArgs, TQueryFnData = TArgs extends { select: any; } ? TArgs['select'] extends true ? number : Prisma.GetScalarType<TArgs['select'], Prisma.ProductAttributeCountAggregateOutputType> : number, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.ProductAttributeCountArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('productAttribute', `${endpoint}/productAttribute/count`, args, options, fetch);
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('ProductAttribute', `${endpoint}/productAttribute/count`, args, options, fetch);
 }
 
-export function useCheckproductAttribute<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; name?: string; value?: string; productId?: string }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
+export function useCheckProductAttribute<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; name?: string; value?: string; productId?: string }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<boolean, boolean, TError>('productAttribute', `${endpoint}/productAttribute/check`, args, options, fetch);
+    return useModelQuery<boolean, boolean, TError>('ProductAttribute', `${endpoint}/productAttribute/check`, args, options, fetch);
 }

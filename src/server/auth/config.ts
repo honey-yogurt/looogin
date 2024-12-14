@@ -18,10 +18,13 @@ declare module "next-auth" {
     user: {
       id: string;
       email: string;
-      // ...other properties
-      // 添加用户角色属性
       role: "ADMIN" | "USER";
     } & DefaultSession["user"];
+  }
+
+  // 添加这个接口声明
+  interface User {
+    role?: "ADMIN" | "USER";
   }
 }
 
@@ -106,7 +109,10 @@ export const authConfig = {
     // JWT callback - add user role to the token
     // JWT 回调 - 在 token 中添加用户角色
     jwt({ token, user }) {
-      if (user && "role" in user) token.role = user.role;
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
       return token;
     },
     // Session callback - construct session object
@@ -116,8 +122,8 @@ export const authConfig = {
         ...session,
         user: {
           ...session.user,
-          id: token.sub!,
-          role: token.role,
+          id: (token.id as string) || token.sub!,
+          role: token.role as "ADMIN" | "USER"
         },
       };
     },

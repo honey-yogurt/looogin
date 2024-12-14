@@ -40,18 +40,21 @@ model Session {
 }
 
 model User {
-  id            String    @id() @default(cuid())
+  id            String     @id() @default(cuid())
   name          String?
-  email         String?   @unique()
+  email         String?    @unique()
   emailVerified DateTime?
   password      String?
-  role          String?   @default("USER")
+  role          String?    @default("USER")
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt()
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt()
   accounts      Account[]
   sessions      Session[]
   products      Product[]
+  sentMessages  Message[]  @relation("MessageSender")
+  sentChats     ChatRoom[] @relation("SentChats")
+  receivedChats ChatRoom[] @relation("ReceivedChats")
 }
 
 model VerificationToken {
@@ -79,9 +82,10 @@ model Product {
   labels       String[]
   wants        Int
   popularity   Int
-  attributes   productAttribute[]
+  attributes   ProductAttribute[]
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt()
+  chatRooms    ChatRoom[]         @relation("ProductChatRooms")
 
   @@index([wants(sort: Desc)])
 }
@@ -99,19 +103,19 @@ model ProductImage {
   @@index([productId, order])
 }
 
-model category {
+model Category {
   id            String              @id() @default(cuid())
   name          String
   description   String?
   parentId      String?
-  parent        category?           @relation("CategoryHierarchy", fields: [parentId], references: [id])
-  subCategories category[]          @relation("CategoryHierarchy")
-  attributes    categoryAttribute[]
+  parent        Category?           @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  subCategories Category[]          @relation("CategoryHierarchy")
+  attributes    CategoryAttribute[]
   createdAt     DateTime            @default(now())
   updatedAt     DateTime            @updatedAt()
 }
 
-model label {
+model Label {
   id         String   @id() @default(cuid())
   name       String   @unique()
   popularity Int      @default(0)
@@ -119,10 +123,10 @@ model label {
   updatedAt  DateTime @updatedAt()
 }
 
-model categoryAttribute {
+model CategoryAttribute {
   id         String   @id() @default(cuid())
   name       String
-  category   category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
   order      Int      @default(0)
   createdAt  DateTime @default(now())
@@ -131,7 +135,7 @@ model categoryAttribute {
   @@unique([categoryId, name])
 }
 
-model productAttribute {
+model ProductAttribute {
   id        String   @id() @default(cuid())
   name      String
   value     String
@@ -141,4 +145,36 @@ model productAttribute {
   updatedAt DateTime @updatedAt()
 
   @@unique([productId, name])
+}
+
+model ChatRoom {
+  id             String    @id() @default(cuid())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt()
+  product        Product   @relation("ProductChatRooms", fields: [productId], references: [id])
+  productId      String
+  sender         User      @relation("SentChats", fields: [senderId], references: [id])
+  senderId       String
+  receiver       User      @relation("ReceivedChats", fields: [receiverId], references: [id])
+  receiverId     String
+  lastMessage    String?
+  senderUnread   Int       @default(0)
+  receiverUnread Int       @default(0)
+  messages       Message[]
+  status         String    @default("ACTIVE")
+
+  @@unique([senderId, receiverId, productId])
+}
+
+model Message {
+  id         String   @id() @default(cuid())
+  content    String
+  createdAt  DateTime @default(now())
+  sender     User     @relation("MessageSender", fields: [senderId], references: [id])
+  senderId   String
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+  chatRoomId String
+  isRead     Boolean  @default(false)
+  type       String   @default("TEXT")
+  status     String   @default("SENT")
 }

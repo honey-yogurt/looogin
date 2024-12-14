@@ -1,6 +1,6 @@
 'use client'
 
-import { useFindManylabel } from "@/lib/hooks/label"
+import { useFindManyLabel } from "@/lib/hooks/label"
 
 interface FilterBarProps {
   activeFilter: string
@@ -9,7 +9,7 @@ interface FilterBarProps {
 
 export function FilterBar({ activeFilter, onFilterChange }: FilterBarProps) {
   // 查询标签数据
-  const { data: labels, isLoading: isLoadingLabels } = useFindManylabel({
+  const { data: labels, isLoading: isLoadingLabels } = useFindManyLabel({
     orderBy: {
       popularity: 'desc'
     },

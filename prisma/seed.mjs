@@ -96,6 +96,12 @@ async function main() {
     data: {
       name: '电子产品',
       description: '包含手机、电脑等电子设备',
+      attributes: {
+        create: [
+          { name: '品牌', order: 1 },
+          { name: '成色', order: 2 }
+        ]
+      }
     }
   });
 
@@ -103,6 +109,13 @@ async function main() {
     data: {
       name: '服饰鞋包',
       description: '包含衣服、鞋子、包包等',
+      attributes: {
+        create: [
+          { name: '品牌', order: 1 },
+          { name: '尺码', order: 2 },
+          { name: '成色', order: 3 }
+        ]
+      }
     }
   });
 
@@ -110,6 +123,12 @@ async function main() {
     data: {
       name: '图书教材',
       description: '包含教材、课外书等',
+      attributes: {
+        create: [
+          { name: '出版社', order: 1 },
+          { name: '成色', order: 2 }
+        ]
+      }
     }
   });
 
@@ -117,6 +136,12 @@ async function main() {
     data: {
       name: '运动户外',
       description: '包含运动器材、户外装备等',
+      attributes: {
+        create: [
+          { name: '品牌', order: 1 },
+          { name: '成色', order: 2 }
+        ]
+      }
     }
   });
 

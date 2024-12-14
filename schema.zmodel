@@ -73,6 +73,9 @@ model User {
     accounts      Account[]
     sessions      Session[]
     products      Product[]
+    sentMessages  Message[]    @relation("MessageSender")
+    sentChats     ChatRoom[]   @relation("SentChats")
+    receivedChats ChatRoom[]   @relation("ReceivedChats")
 
     @@allow('create', true)
     @@allow('read', auth().role == "ADMIN" || auth() == this)  // auth() 返回当前用户，判断当前用户是否是管理员或者被操作的对象（表中的那行）
@@ -104,15 +107,16 @@ model Product {
     ownerId String // 商品拥有者
     categoryId String // 商品分类ID
     labels String[] // 修改为字符串数组，存储标签名称
-    wants Int // 商品心愿数，即多少人收藏
+    wants Int // 商品心愿数，即多少人收
     popularity Int // 商品热度，即多少人点进详情页，粗略计算下
-    attributes productAttribute[] // 商品属性值列表
+    attributes ProductAttribute[] // 商品属性值列表
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    chatRooms ChatRoom[] @relation("ProductChatRooms") // 添加反向关系
 
-    @@allow('read', true) // 所有人可读
-    @@allow('create', auth() != null && ownerId == auth().id)  // 创建时检查 ownerId
-    @@allow('update,delete', auth() == owner) // 只有卖家可以更新和删除
+    @@allow('read', true)
+    @@allow('create', auth() != null && ownerId == auth().id)
+    @@allow('update,delete', auth() == owner)
     @@index([wants(sort: Desc)]) // 添加索引以优化排序查询
 }
 
@@ -133,20 +137,20 @@ model ProductImage {
 }
 
 // 商品分类
-model category {
+model Category {
     id String @id @default(cuid())
     name String // 分类名称
     description String? // 分类描述
     parentId String? // 父分类ID
-    parent category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
-    subCategories category[] @relation("CategoryHierarchy")
-    attributes categoryAttribute[] // 该分类的属性定义列表
+    parent Category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
+    subCategories Category[] @relation("CategoryHierarchy")
+    attributes CategoryAttribute[] // 该分类的属性定义列表
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 // 商品标签类型表，首先要新增标签类型，才能打标签
-model label {
+model Label {
     id String @id @default(cuid())
     name String @unique // 标签名称唯一
     popularity Int @default(0) // 标签热度 新增商品时候，以及手动打标签时候 没有的话就新增并+1，有的话就+1
@@ -157,10 +161,10 @@ model label {
 }
 
 // 分类的属性定义
-model categoryAttribute {
+model CategoryAttribute {
     id String @id @default(cuid())
     name String // 属性名称，如"品牌"、"成色"等
-    category category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
     categoryId String
     order Int @default(0) // 显示顺序
     createdAt DateTime @default(now())
@@ -172,7 +176,7 @@ model categoryAttribute {
 }
 
 // 商品属性值
-model productAttribute {
+model ProductAttribute {
     id String @id @default(cuid())
     name String // 属性名称
     value String // 属性值
@@ -184,4 +188,62 @@ model productAttribute {
     @@allow('read', true)
     @@allow('create,update,delete', auth() == product.owner)
     @@unique([productId, name])
+}
+
+// 聊天会话
+model ChatRoom {
+    id          String    @id @default(cuid())
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    
+    product     Product   @relation("ProductChatRooms", fields: [productId], references: [id])
+    productId   String
+    
+    sender      User      @relation("SentChats", fields: [senderId], references: [id])
+    senderId    String
+    receiver    User      @relation("ReceivedChats", fields: [receiverId], references: [id])
+    receiverId  String
+    
+    lastMessage    String?
+    senderUnread   Int    @default(0)
+    receiverUnread Int    @default(0)
+    messages       Message[]
+    status         String @default("ACTIVE") // ACTIVE, ARCHIVED, BLOCKED
+
+    @@unique([senderId, receiverId, productId])
+    @@allow('create', auth() != null)
+    @@allow('read', auth() != null && 
+        (auth().id == senderId || auth().id == receiverId)
+    )
+    @@allow('update', auth() != null && 
+        (auth().id == senderId || auth().id == receiverId)
+    )
+}
+
+// 聊天消息
+model Message {
+    id          String    @id @default(cuid())
+    content     String
+    createdAt   DateTime  @default(now())
+    
+    // 发送者
+    sender      User      @relation("MessageSender", fields: [senderId], references: [id])
+    senderId    String
+    
+    // 所属会话
+    chatRoom    ChatRoom  @relation(fields: [chatRoomId], references: [id])
+    chatRoomId  String
+    
+    // 消息状态
+    isRead      Boolean   @default(false)
+    type        String @default("TEXT") // TEXT, IMAGE, SYSTEM 等
+    status      String @default("SENT") // SENDING, SENT, FAILED
+
+    @@allow('create', auth() != null && auth().id == senderId)
+    @@allow('read', auth() != null && 
+        (auth().id == chatRoom.senderId || auth().id == chatRoom.receiverId)
+    )
+    @@allow('update', auth() != null && 
+        (auth().id == chatRoom.senderId || auth().id == chatRoom.receiverId)
+    )
 }

@@ -5,7 +5,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Prisma, label } from "@prisma/client";
+import type { Prisma, Label } from "@prisma/client";
 import type { UseMutationOptions, UseQueryOptions, UseInfiniteQueryOptions, InfiniteData } from '@tanstack/react-query';
 import { getHooksContext } from '@zenstackhq/tanstack-query/runtime-v5/react';
 import { useModelQuery, useInfiniteModelQuery, useModelMutation } from '@zenstackhq/tanstack-query/runtime-v5/react';
@@ -16,118 +16,36 @@ type DefaultError = QueryError;
 import { useSuspenseModelQuery, useSuspenseInfiniteModelQuery } from '@zenstackhq/tanstack-query/runtime-v5/react';
 import type { UseSuspenseQueryOptions, UseSuspenseInfiniteQueryOptions } from '@tanstack/react-query';
 
-export function useCreatelabel(options?: Omit<(UseMutationOptions<(label | undefined), DefaultError, Prisma.labelCreateArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useCreateLabel(options?: Omit<(UseMutationOptions<(Label | undefined), DefaultError, Prisma.LabelCreateArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.labelCreateArgs, DefaultError, label, true>('label', 'POST', `${endpoint}/label/create`, metadata, options, fetch, true)
+        useModelMutation<Prisma.LabelCreateArgs, DefaultError, Label, true>('Label', 'POST', `${endpoint}/label/create`, metadata, options, fetch, true)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.labelCreateArgs>(
-            args: Prisma.SelectSubset<T, Prisma.labelCreateArgs>,
-            options?: Omit<(UseMutationOptions<(CheckSelect<T, label, Prisma.labelGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.labelCreateArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.LabelCreateArgs>(
+            args: Prisma.SelectSubset<T, Prisma.LabelCreateArgs>,
+            options?: Omit<(UseMutationOptions<(CheckSelect<T, Label, Prisma.LabelGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.LabelCreateArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
                 options as any
-            )) as (CheckSelect<T, label, Prisma.labelGetPayload<T>> | undefined);
+            )) as (CheckSelect<T, Label, Prisma.LabelGetPayload<T>> | undefined);
         },
     };
     return mutation;
 }
 
-export function useCreateManylabel(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.labelCreateManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useCreateManyLabel(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.LabelCreateManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.labelCreateManyArgs, DefaultError, Prisma.BatchPayload, false>('label', 'POST', `${endpoint}/label/createMany`, metadata, options, fetch, false)
+        useModelMutation<Prisma.LabelCreateManyArgs, DefaultError, Prisma.BatchPayload, false>('Label', 'POST', `${endpoint}/label/createMany`, metadata, options, fetch, false)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.labelCreateManyArgs>(
-            args: Prisma.SelectSubset<T, Prisma.labelCreateManyArgs>,
-            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.labelCreateManyArgs>> & ExtraMutationOptions), 'mutationFn'>
-        ) => {
-            return (await _mutation.mutateAsync(
-                args,
-                options as any
-            )) as Prisma.BatchPayload;
-        },
-    };
-    return mutation;
-}
-
-export function useFindManylabel<TArgs extends Prisma.labelFindManyArgs, TQueryFnData = Array<Prisma.labelGetPayload<TArgs> & { $optimistic?: boolean }>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.labelFindManyArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/findMany`, args, options, fetch);
-}
-
-export function useInfiniteFindManylabel<TArgs extends Prisma.labelFindManyArgs, TQueryFnData = Array<Prisma.labelGetPayload<TArgs>>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.labelFindManyArgs>, options?: Omit<UseInfiniteQueryOptions<TQueryFnData, TError, InfiniteData<TData>>, 'queryKey' | 'initialPageParam'>) {
-    options = options ?? { getNextPageParam: () => null };
-    const { endpoint, fetch } = getHooksContext();
-    return useInfiniteModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/findMany`, args, options, fetch);
-}
-
-export function useSuspenseFindManylabel<TArgs extends Prisma.labelFindManyArgs, TQueryFnData = Array<Prisma.labelGetPayload<TArgs> & { $optimistic?: boolean }>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.labelFindManyArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/findMany`, args, options, fetch);
-}
-
-export function useSuspenseInfiniteFindManylabel<TArgs extends Prisma.labelFindManyArgs, TQueryFnData = Array<Prisma.labelGetPayload<TArgs>>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.labelFindManyArgs>, options?: Omit<UseSuspenseInfiniteQueryOptions<TQueryFnData, TError, InfiniteData<TData>>, 'queryKey' | 'initialPageParam'>) {
-    options = options ?? { getNextPageParam: () => null };
-    const { endpoint, fetch } = getHooksContext();
-    return useSuspenseInfiniteModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/findMany`, args, options, fetch);
-}
-
-export function useFindUniquelabel<TArgs extends Prisma.labelFindUniqueArgs, TQueryFnData = Prisma.labelGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.labelFindUniqueArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/findUnique`, args, options, fetch);
-}
-
-export function useSuspenseFindUniquelabel<TArgs extends Prisma.labelFindUniqueArgs, TQueryFnData = Prisma.labelGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.labelFindUniqueArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/findUnique`, args, options, fetch);
-}
-
-export function useFindFirstlabel<TArgs extends Prisma.labelFindFirstArgs, TQueryFnData = Prisma.labelGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.labelFindFirstArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/findFirst`, args, options, fetch);
-}
-
-export function useSuspenseFindFirstlabel<TArgs extends Prisma.labelFindFirstArgs, TQueryFnData = Prisma.labelGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.labelFindFirstArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
-    const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/findFirst`, args, options, fetch);
-}
-
-export function useUpdatelabel(options?: Omit<(UseMutationOptions<(label | undefined), DefaultError, Prisma.labelUpdateArgs> & ExtraMutationOptions), 'mutationFn'>) {
-    const { endpoint, fetch } = getHooksContext();
-    const _mutation =
-        useModelMutation<Prisma.labelUpdateArgs, DefaultError, label, true>('label', 'PUT', `${endpoint}/label/update`, metadata, options, fetch, true)
-        ;
-    const mutation = {
-        ..._mutation,
-        mutateAsync: async <T extends Prisma.labelUpdateArgs>(
-            args: Prisma.SelectSubset<T, Prisma.labelUpdateArgs>,
-            options?: Omit<(UseMutationOptions<(CheckSelect<T, label, Prisma.labelGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.labelUpdateArgs>> & ExtraMutationOptions), 'mutationFn'>
-        ) => {
-            return (await _mutation.mutateAsync(
-                args,
-                options as any
-            )) as (CheckSelect<T, label, Prisma.labelGetPayload<T>> | undefined);
-        },
-    };
-    return mutation;
-}
-
-export function useUpdateManylabel(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.labelUpdateManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
-    const { endpoint, fetch } = getHooksContext();
-    const _mutation =
-        useModelMutation<Prisma.labelUpdateManyArgs, DefaultError, Prisma.BatchPayload, false>('label', 'PUT', `${endpoint}/label/updateMany`, metadata, options, fetch, false)
-        ;
-    const mutation = {
-        ..._mutation,
-        mutateAsync: async <T extends Prisma.labelUpdateManyArgs>(
-            args: Prisma.SelectSubset<T, Prisma.labelUpdateManyArgs>,
-            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.labelUpdateManyArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.LabelCreateManyArgs>(
+            args: Prisma.SelectSubset<T, Prisma.LabelCreateManyArgs>,
+            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.LabelCreateManyArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
@@ -138,56 +56,138 @@ export function useUpdateManylabel(options?: Omit<(UseMutationOptions<Prisma.Bat
     return mutation;
 }
 
-export function useUpsertlabel(options?: Omit<(UseMutationOptions<(label | undefined), DefaultError, Prisma.labelUpsertArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useFindManyLabel<TArgs extends Prisma.LabelFindManyArgs, TQueryFnData = Array<Prisma.LabelGetPayload<TArgs> & { $optimistic?: boolean }>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.LabelFindManyArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/findMany`, args, options, fetch);
+}
+
+export function useInfiniteFindManyLabel<TArgs extends Prisma.LabelFindManyArgs, TQueryFnData = Array<Prisma.LabelGetPayload<TArgs>>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.LabelFindManyArgs>, options?: Omit<UseInfiniteQueryOptions<TQueryFnData, TError, InfiniteData<TData>>, 'queryKey' | 'initialPageParam'>) {
+    options = options ?? { getNextPageParam: () => null };
+    const { endpoint, fetch } = getHooksContext();
+    return useInfiniteModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/findMany`, args, options, fetch);
+}
+
+export function useSuspenseFindManyLabel<TArgs extends Prisma.LabelFindManyArgs, TQueryFnData = Array<Prisma.LabelGetPayload<TArgs> & { $optimistic?: boolean }>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.LabelFindManyArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/findMany`, args, options, fetch);
+}
+
+export function useSuspenseInfiniteFindManyLabel<TArgs extends Prisma.LabelFindManyArgs, TQueryFnData = Array<Prisma.LabelGetPayload<TArgs>>, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.LabelFindManyArgs>, options?: Omit<UseSuspenseInfiniteQueryOptions<TQueryFnData, TError, InfiniteData<TData>>, 'queryKey' | 'initialPageParam'>) {
+    options = options ?? { getNextPageParam: () => null };
+    const { endpoint, fetch } = getHooksContext();
+    return useSuspenseInfiniteModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/findMany`, args, options, fetch);
+}
+
+export function useFindUniqueLabel<TArgs extends Prisma.LabelFindUniqueArgs, TQueryFnData = Prisma.LabelGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.LabelFindUniqueArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/findUnique`, args, options, fetch);
+}
+
+export function useSuspenseFindUniqueLabel<TArgs extends Prisma.LabelFindUniqueArgs, TQueryFnData = Prisma.LabelGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.LabelFindUniqueArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/findUnique`, args, options, fetch);
+}
+
+export function useFindFirstLabel<TArgs extends Prisma.LabelFindFirstArgs, TQueryFnData = Prisma.LabelGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.LabelFindFirstArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/findFirst`, args, options, fetch);
+}
+
+export function useSuspenseFindFirstLabel<TArgs extends Prisma.LabelFindFirstArgs, TQueryFnData = Prisma.LabelGetPayload<TArgs> & { $optimistic?: boolean }, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.LabelFindFirstArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    const { endpoint, fetch } = getHooksContext();
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/findFirst`, args, options, fetch);
+}
+
+export function useUpdateLabel(options?: Omit<(UseMutationOptions<(Label | undefined), DefaultError, Prisma.LabelUpdateArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.labelUpsertArgs, DefaultError, label, true>('label', 'POST', `${endpoint}/label/upsert`, metadata, options, fetch, true)
+        useModelMutation<Prisma.LabelUpdateArgs, DefaultError, Label, true>('Label', 'PUT', `${endpoint}/label/update`, metadata, options, fetch, true)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.labelUpsertArgs>(
-            args: Prisma.SelectSubset<T, Prisma.labelUpsertArgs>,
-            options?: Omit<(UseMutationOptions<(CheckSelect<T, label, Prisma.labelGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.labelUpsertArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.LabelUpdateArgs>(
+            args: Prisma.SelectSubset<T, Prisma.LabelUpdateArgs>,
+            options?: Omit<(UseMutationOptions<(CheckSelect<T, Label, Prisma.LabelGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.LabelUpdateArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
                 options as any
-            )) as (CheckSelect<T, label, Prisma.labelGetPayload<T>> | undefined);
+            )) as (CheckSelect<T, Label, Prisma.LabelGetPayload<T>> | undefined);
         },
     };
     return mutation;
 }
 
-export function useDeletelabel(options?: Omit<(UseMutationOptions<(label | undefined), DefaultError, Prisma.labelDeleteArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useUpdateManyLabel(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.LabelUpdateManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.labelDeleteArgs, DefaultError, label, true>('label', 'DELETE', `${endpoint}/label/delete`, metadata, options, fetch, true)
+        useModelMutation<Prisma.LabelUpdateManyArgs, DefaultError, Prisma.BatchPayload, false>('Label', 'PUT', `${endpoint}/label/updateMany`, metadata, options, fetch, false)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.labelDeleteArgs>(
-            args: Prisma.SelectSubset<T, Prisma.labelDeleteArgs>,
-            options?: Omit<(UseMutationOptions<(CheckSelect<T, label, Prisma.labelGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.labelDeleteArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.LabelUpdateManyArgs>(
+            args: Prisma.SelectSubset<T, Prisma.LabelUpdateManyArgs>,
+            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.LabelUpdateManyArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
                 options as any
-            )) as (CheckSelect<T, label, Prisma.labelGetPayload<T>> | undefined);
+            )) as Prisma.BatchPayload;
         },
     };
     return mutation;
 }
 
-export function useDeleteManylabel(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.labelDeleteManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
+export function useUpsertLabel(options?: Omit<(UseMutationOptions<(Label | undefined), DefaultError, Prisma.LabelUpsertArgs> & ExtraMutationOptions), 'mutationFn'>) {
     const { endpoint, fetch } = getHooksContext();
     const _mutation =
-        useModelMutation<Prisma.labelDeleteManyArgs, DefaultError, Prisma.BatchPayload, false>('label', 'DELETE', `${endpoint}/label/deleteMany`, metadata, options, fetch, false)
+        useModelMutation<Prisma.LabelUpsertArgs, DefaultError, Label, true>('Label', 'POST', `${endpoint}/label/upsert`, metadata, options, fetch, true)
         ;
     const mutation = {
         ..._mutation,
-        mutateAsync: async <T extends Prisma.labelDeleteManyArgs>(
-            args: Prisma.SelectSubset<T, Prisma.labelDeleteManyArgs>,
-            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.labelDeleteManyArgs>> & ExtraMutationOptions), 'mutationFn'>
+        mutateAsync: async <T extends Prisma.LabelUpsertArgs>(
+            args: Prisma.SelectSubset<T, Prisma.LabelUpsertArgs>,
+            options?: Omit<(UseMutationOptions<(CheckSelect<T, Label, Prisma.LabelGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.LabelUpsertArgs>> & ExtraMutationOptions), 'mutationFn'>
+        ) => {
+            return (await _mutation.mutateAsync(
+                args,
+                options as any
+            )) as (CheckSelect<T, Label, Prisma.LabelGetPayload<T>> | undefined);
+        },
+    };
+    return mutation;
+}
+
+export function useDeleteLabel(options?: Omit<(UseMutationOptions<(Label | undefined), DefaultError, Prisma.LabelDeleteArgs> & ExtraMutationOptions), 'mutationFn'>) {
+    const { endpoint, fetch } = getHooksContext();
+    const _mutation =
+        useModelMutation<Prisma.LabelDeleteArgs, DefaultError, Label, true>('Label', 'DELETE', `${endpoint}/label/delete`, metadata, options, fetch, true)
+        ;
+    const mutation = {
+        ..._mutation,
+        mutateAsync: async <T extends Prisma.LabelDeleteArgs>(
+            args: Prisma.SelectSubset<T, Prisma.LabelDeleteArgs>,
+            options?: Omit<(UseMutationOptions<(CheckSelect<T, Label, Prisma.LabelGetPayload<T>> | undefined), DefaultError, Prisma.SelectSubset<T, Prisma.LabelDeleteArgs>> & ExtraMutationOptions), 'mutationFn'>
+        ) => {
+            return (await _mutation.mutateAsync(
+                args,
+                options as any
+            )) as (CheckSelect<T, Label, Prisma.LabelGetPayload<T>> | undefined);
+        },
+    };
+    return mutation;
+}
+
+export function useDeleteManyLabel(options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.LabelDeleteManyArgs> & ExtraMutationOptions), 'mutationFn'>) {
+    const { endpoint, fetch } = getHooksContext();
+    const _mutation =
+        useModelMutation<Prisma.LabelDeleteManyArgs, DefaultError, Prisma.BatchPayload, false>('Label', 'DELETE', `${endpoint}/label/deleteMany`, metadata, options, fetch, false)
+        ;
+    const mutation = {
+        ..._mutation,
+        mutateAsync: async <T extends Prisma.LabelDeleteManyArgs>(
+            args: Prisma.SelectSubset<T, Prisma.LabelDeleteManyArgs>,
+            options?: Omit<(UseMutationOptions<Prisma.BatchPayload, DefaultError, Prisma.SelectSubset<T, Prisma.LabelDeleteManyArgs>> & ExtraMutationOptions), 'mutationFn'>
         ) => {
             return (await _mutation.mutateAsync(
                 args,
@@ -208,7 +208,7 @@ export function useSuspenseAggregateLabel<TArgs extends Prisma.LabelAggregateArg
     return useSuspenseModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/aggregate`, args, options, fetch);
 }
 
-export function useGroupBylabel<TArgs extends Prisma.labelGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<TArgs>>, Prisma.Extends<'take', Prisma.Keys<TArgs>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? { orderBy: Prisma.labelGroupByArgs['orderBy'] } : { orderBy?: Prisma.labelGroupByArgs['orderBy'] }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<TArgs['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<TArgs['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<TArgs['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends TArgs['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True
+export function useGroupByLabel<TArgs extends Prisma.LabelGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<TArgs>>, Prisma.Extends<'take', Prisma.Keys<TArgs>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? { orderBy: Prisma.LabelGroupByArgs['orderBy'] } : { orderBy?: Prisma.LabelGroupByArgs['orderBy'] }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<TArgs['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<TArgs['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<TArgs['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends TArgs['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True
     ? `Error: "by" must not be empty.`
     : HavingValid extends Prisma.False
     ? {
@@ -258,12 +258,12 @@ export function useGroupBylabel<TArgs extends Prisma.labelGroupByArgs, HasSelect
             : Prisma.GetScalarType<TArgs[P], Prisma.LabelGroupByOutputType[P]>
             : Prisma.GetScalarType<TArgs[P], Prisma.LabelGroupByOutputType[P]>
         }
-    > : InputErrors, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.SubsetIntersection<TArgs, Prisma.labelGroupByArgs, OrderByArg> & InputErrors>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    > : InputErrors, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.SubsetIntersection<TArgs, Prisma.LabelGroupByArgs, OrderByArg> & InputErrors>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/groupBy`, args, options, fetch);
+    return useModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/groupBy`, args, options, fetch);
 }
 
-export function useSuspenseGroupBylabel<TArgs extends Prisma.labelGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<TArgs>>, Prisma.Extends<'take', Prisma.Keys<TArgs>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? { orderBy: Prisma.labelGroupByArgs['orderBy'] } : { orderBy?: Prisma.labelGroupByArgs['orderBy'] }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<TArgs['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<TArgs['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<TArgs['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends TArgs['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True
+export function useSuspenseGroupByLabel<TArgs extends Prisma.LabelGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<TArgs>>, Prisma.Extends<'take', Prisma.Keys<TArgs>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? { orderBy: Prisma.LabelGroupByArgs['orderBy'] } : { orderBy?: Prisma.LabelGroupByArgs['orderBy'] }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<TArgs['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<TArgs['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<TArgs['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends TArgs['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True
     ? `Error: "by" must not be empty.`
     : HavingValid extends Prisma.False
     ? {
@@ -313,22 +313,22 @@ export function useSuspenseGroupBylabel<TArgs extends Prisma.labelGroupByArgs, H
             : Prisma.GetScalarType<TArgs[P], Prisma.LabelGroupByOutputType[P]>
             : Prisma.GetScalarType<TArgs[P], Prisma.LabelGroupByOutputType[P]>
         }
-    > : InputErrors, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.SubsetIntersection<TArgs, Prisma.labelGroupByArgs, OrderByArg> & InputErrors>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+    > : InputErrors, TData = TQueryFnData, TError = DefaultError>(args: Prisma.SelectSubset<TArgs, Prisma.SubsetIntersection<TArgs, Prisma.LabelGroupByArgs, OrderByArg> & InputErrors>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/groupBy`, args, options, fetch);
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/groupBy`, args, options, fetch);
 }
 
-export function useCountlabel<TArgs extends Prisma.labelCountArgs, TQueryFnData = TArgs extends { select: any; } ? TArgs['select'] extends true ? number : Prisma.GetScalarType<TArgs['select'], Prisma.LabelCountAggregateOutputType> : number, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.labelCountArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+export function useCountLabel<TArgs extends Prisma.LabelCountArgs, TQueryFnData = TArgs extends { select: any; } ? TArgs['select'] extends true ? number : Prisma.GetScalarType<TArgs['select'], Prisma.LabelCountAggregateOutputType> : number, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.LabelCountArgs>, options?: (Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/count`, args, options, fetch);
+    return useModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/count`, args, options, fetch);
 }
 
-export function useSuspenseCountlabel<TArgs extends Prisma.labelCountArgs, TQueryFnData = TArgs extends { select: any; } ? TArgs['select'] extends true ? number : Prisma.GetScalarType<TArgs['select'], Prisma.LabelCountAggregateOutputType> : number, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.labelCountArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
+export function useSuspenseCountLabel<TArgs extends Prisma.LabelCountArgs, TQueryFnData = TArgs extends { select: any; } ? TArgs['select'] extends true ? number : Prisma.GetScalarType<TArgs['select'], Prisma.LabelCountAggregateOutputType> : number, TData = TQueryFnData, TError = DefaultError>(args?: Prisma.SelectSubset<TArgs, Prisma.LabelCountArgs>, options?: (Omit<UseSuspenseQueryOptions<TQueryFnData, TError, TData>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useSuspenseModelQuery<TQueryFnData, TData, TError>('label', `${endpoint}/label/count`, args, options, fetch);
+    return useSuspenseModelQuery<TQueryFnData, TData, TError>('Label', `${endpoint}/label/count`, args, options, fetch);
 }
 
-export function useChecklabel<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; name?: string; popularity?: number }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
+export function useCheckLabel<TError = DefaultError>(args: { operation: PolicyCrudKind; where?: { id?: string; name?: string; popularity?: number }; }, options?: (Omit<UseQueryOptions<boolean, TError, boolean>, 'queryKey'> & ExtraQueryOptions)) {
     const { endpoint, fetch } = getHooksContext();
-    return useModelQuery<boolean, boolean, TError>('label', `${endpoint}/label/check`, args, options, fetch);
+    return useModelQuery<boolean, boolean, TError>('Label', `${endpoint}/label/check`, args, options, fetch);
 }
