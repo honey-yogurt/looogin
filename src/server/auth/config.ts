@@ -70,7 +70,11 @@ function authorize(prisma: PrismaClient) {
 
     // Return user information if authentication is successful
     // 如果认证成功，返回用户信息
-    return { id: maybeUser.id, email: maybeUser.email, role: maybeUser.role };
+    return { 
+      id: maybeUser.id, 
+      email: maybeUser.email, 
+      role: maybeUser.role as "ADMIN" | "USER" 
+    };
   };
 }
 
