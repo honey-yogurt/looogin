@@ -27,7 +27,10 @@ export default function ProductPage() {
       <div className="max-w-7xl mx-auto px-4">
         <SellerInfo owner={product.owner} />
         <ProductDetail product={product} />
-        <RecommendProducts currentProductId={product.id} />
+        <RecommendProducts 
+          currentProductId={product.id}
+          currentProductLabels={product.labels}
+        />
       </div>
     </div>
   )

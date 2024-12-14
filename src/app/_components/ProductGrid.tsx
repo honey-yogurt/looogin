@@ -13,7 +13,9 @@ export function ProductGrid() {
 
   const {data: products, isLoading: isLoadingProducts} = useFindManyProduct({
     where: {
-      label: activeFilter === '猜你喜欢' ? undefined : activeFilter
+      labels: activeFilter === '猜你喜欢' 
+        ? undefined 
+        : { has: activeFilter }
     },
     orderBy: activeFilter === '猜你喜欢' 
       ? { popularity: 'desc' }
@@ -35,9 +37,7 @@ export function ProductGrid() {
       />
 
       <div className="grid grid-cols-5 gap-4">
-        {products?.map((product: Product & { 
-          owner: User 
-        }) => (
+        {products?.map((product) => (
           <Card 
             key={product.id} 
             className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"

@@ -103,7 +103,7 @@ model Product {
     owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
     ownerId String // 商品拥有者
     categoryId String // 商品分类ID
-    label String // 商品标签,各种标签，可以自定义的那种
+    labels String[] // 修改为字符串数组，存储标签名称
     wants Int // 商品心愿数，即多少人收藏
     popularity Int // 商品热度，即多少人点进详情页，粗略计算下
     attributes productAttribute[] // 商品属性值列表
@@ -145,6 +145,7 @@ model category {
     updatedAt DateTime @updatedAt
 }
 
+// 商品标签类型表，首先要新增标签类型，才能打标签
 model label {
     id String @id @default(cuid())
     name String @unique // 标签名称唯一

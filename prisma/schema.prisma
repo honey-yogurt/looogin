@@ -76,7 +76,7 @@ model Product {
   owner        User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId      String
   categoryId   String
-  label        String
+  labels       String[]
   wants        Int
   popularity   Int
   attributes   productAttribute[]

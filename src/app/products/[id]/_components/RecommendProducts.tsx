@@ -7,14 +7,21 @@ import { useRouter } from "next/navigation"
 
 interface RecommendProductsProps {
   currentProductId: string
+  currentProductLabels: string[]
 }
 
-export function RecommendProducts({ currentProductId }: RecommendProductsProps) {
+export function RecommendProducts({ 
+  currentProductId, 
+  currentProductLabels 
+}: RecommendProductsProps) {
   const router = useRouter()
 
   const { data: products } = useFindManyProduct({
     where: {
-      id: { not: currentProductId },
+      AND: [
+        { id: { not: currentProductId } },
+        { labels: { hasSome: currentProductLabels } }
+      ]
     },
     orderBy: { popularity: 'desc' },
     take: 5,
@@ -27,7 +34,7 @@ export function RecommendProducts({ currentProductId }: RecommendProductsProps) 
     <div className="mt-8">
       <h2 className="text-xl font-medium mb-4">为你推荐</h2>
       <div className="grid grid-cols-5 gap-4">
-        {products?.map((product: Product & { owner: User }) => (
+        {products?.map((product) => (
           <Card 
             key={product.id} 
             className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"

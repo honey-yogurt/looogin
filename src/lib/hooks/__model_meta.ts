@@ -272,9 +272,10 @@ const metadata = {
                 }, categoryId: {
                     name: "categoryId",
                     type: "String",
-                }, label: {
-                    name: "label",
+                }, labels: {
+                    name: "labels",
                     type: "String",
+                    isArray: true,
                 }, wants: {
                     name: "wants",
                     type: "Int",
