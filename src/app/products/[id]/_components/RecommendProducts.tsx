@@ -3,15 +3,18 @@
 import { useFindManyProduct } from "@/lib/hooks/product"
 import { Card } from "@/components/ui/card"
 import type { Product, User } from "@prisma/client"
+import { useRouter } from "next/navigation"
 
 interface RecommendProductsProps {
   currentProductId: string
 }
 
 export function RecommendProducts({ currentProductId }: RecommendProductsProps) {
+  const router = useRouter()
+
   const { data: products } = useFindManyProduct({
     where: {
-      id: { not: currentProductId }
+      id: { not: currentProductId },
     },
     orderBy: { popularity: 'desc' },
     take: 5,
@@ -25,7 +28,11 @@ export function RecommendProducts({ currentProductId }: RecommendProductsProps) 
       <h2 className="text-xl font-medium mb-4">为你推荐</h2>
       <div className="grid grid-cols-5 gap-4">
         {products?.map((product: Product & { owner: User }) => (
-          <Card key={product.id} className="overflow-hidden">
+          <Card 
+            key={product.id} 
+            className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => router.push(`/products/${product.id}`)}
+          >
             <img 
               src={product.image}
               alt={product.name}

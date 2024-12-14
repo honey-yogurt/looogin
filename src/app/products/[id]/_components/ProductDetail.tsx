@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { ImageGallery } from "./ImageGallery"
 import { ProductInfo } from "./ProductInfo"
-import type { Product, User, ProductImage, ProductAttribute } from "@prisma/client"
+import type { Product, User, ProductImage, productAttribute as ProductAttribute } from "@prisma/client"
 
 interface ProductDetailProps {
   product: Product & {
