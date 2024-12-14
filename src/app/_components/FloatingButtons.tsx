@@ -9,16 +9,15 @@ import {
 
 export function FloatingButtons() {
   const buttons = [
-    { icon: "➕", label: "发布" },
+    { icon: "➕", label: "发闲置" },
     { icon: "💬", label: "消息" },
-    { icon: "📱", label: "APP" },
     { icon: "🔄", label: "反馈" },
   ]
 
   return (
     <TooltipProvider>
       <div className="fixed right-8 top-1/3 z-50">
-        <div className="bg-white rounded-lg shadow-lg p-3 flex flex-col gap-4">
+        <div className="bg-white rounded-[30px] shadow-lg p-3 flex flex-col gap-4 relative before:content-[''] before:absolute before:inset-0 before:rounded-[30px] before:bg-gradient-to-b before:from-gray-100 before:to-white before:z-[-1]">
           {buttons.map((button, index) => (
             <Tooltip key={index}>
               <TooltipTrigger asChild>

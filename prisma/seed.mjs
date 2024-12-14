@@ -244,7 +244,7 @@ async function main() {
     }
   ];
 
-  // 批量创建商���
+  // 批量创建商品
   for (const product of products) {
     await prisma.product.create({
       data: {
