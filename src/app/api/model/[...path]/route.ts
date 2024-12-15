@@ -42,21 +42,7 @@ async function getPrisma() {
 // 创建一个通用的请求处理器 handler
 const handler = NextRequestHandler({ 
   getPrisma, 
-  useAppDir: true,
-  onError: (err, req) => {
-    console.error("API Error:", {
-      error: err,
-      url: req.url,
-      method: req.method
-    });
-    return new Response(JSON.stringify({
-      error: err.message,
-      details: err
-    }), { 
-      status: 400,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
+  useAppDir: true
 });
 
 // 将 handler 作为多个 HTTP 方法的处理器导出，包括 GET、POST、PUT、PATCH 和 DELETE。
