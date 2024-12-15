@@ -78,7 +78,7 @@ model User {
     receivedChats ChatRoom[]   @relation("ReceivedChats")
 
     @@allow('create', true)
-    @@allow('read', auth().role == "ADMIN" || auth() == this)  // auth() 返回当前用户，判断当前用户是否是管理员或者被操作的对象（表中的那行）
+    @@allow('read', auth() != null)
     @@allow('update', auth().role == "ADMIN" || auth() == this)
     @@allow('delete', auth().role == "ADMIN")
 }
