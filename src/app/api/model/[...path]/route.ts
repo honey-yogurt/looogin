@@ -10,22 +10,15 @@ import type { User } from "@prisma/client";
 // create an enhanced Prisma client with user context
 async function getPrisma() {
   const session = await auth();
-  console.log("API Session:", session);
   
   if (!session?.user?.id) {
-    console.log("No user in session");
     throw new Error("Unauthorized");
   }
-
-  // 打印更多调试信息
-  console.log("Looking for user with ID:", session.user.id);
 
   // 尝试查找用户，但不抛出错误
   const user = await db.user.findUnique({
     where: { id: session.user.id }
   });
-
-  console.log("Found user:", user);
 
   // 如果找不到用户，直接使用 session 中的用户信息
   const contextUser = user || {

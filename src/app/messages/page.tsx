@@ -57,7 +57,6 @@ export default function MessagesPage() {
   }
 
   if (!chatRooms?.length) {
-    console.log('No chat rooms found:', { session, chatRooms });
     return (
       <div className="max-w-2xl mx-auto p-4">
         <h1 className="text-2xl font-bold mb-6">我的消息</h1>
@@ -65,8 +64,6 @@ export default function MessagesPage() {
       </div>
     )
   }
-
-  console.log('Chat rooms:', chatRooms);
 
   return (
     <div className="max-w-2xl mx-auto p-4">

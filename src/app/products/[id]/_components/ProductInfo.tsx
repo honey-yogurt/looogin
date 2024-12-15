@@ -20,13 +20,6 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const router = useRouter()
   const { mutateAsync: createChatRoom } = useCreateChatRoom()
   
-  // 添加日志查看 session 信息
-  console.log('Session Info:', {
-    status: sessionStatus,
-    userId: session?.user?.id,
-    user: session?.user
-  })
-  
   // 查找现有聊天室
   const { data: existingRoom } = useFindFirstChatRoom({
     where: {
@@ -54,13 +47,6 @@ export function ProductInfo({ product }: ProductInfoProps) {
       router.push('/signin')
       return
     }
-
-    // 添加日志查看创建聊天室的参数
-    console.log('Creating ChatRoom with:', {
-      senderId: session.user.id,
-      receiverId: product.ownerId,
-      productId: product.id
-    })
 
     // 检查是否是自己的商品
     if (session.user.id === product.ownerId) {
@@ -92,11 +78,6 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
       router.push(`/messages/${newRoom.id}`)
     } catch (error: any) {
-      console.error('创建聊天失败:', {
-        error,
-        sessionId: session.user.id,
-        sessionUser: session.user
-      })
       toast.error('创建聊天失败，请稍后重试')
     }
   }

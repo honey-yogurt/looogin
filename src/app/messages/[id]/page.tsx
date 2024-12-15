@@ -51,10 +51,8 @@ export default function ChatRoomPage() {
     if (!chatRoom || !session?.user?.id) return;
 
     const channel = usePusher.subscribe(`chat-${chatRoom.id}`);
-    console.log('Subscribed to channel:', `chat-${chatRoom.id}`);
     
     channel.bind('new-message', async (data: any) => {
-      console.log('Received message:', data);
       await refetch();
       
       if (data.senderId !== session.user.id) {
@@ -75,17 +73,8 @@ export default function ChatRoomPage() {
       }
     });
 
-    channel.bind('pusher:subscription_succeeded', () => {
-      console.log('Successfully subscribed to channel');
-    });
-
-    channel.bind('pusher:subscription_error', (error: any) => {
-      console.error('Subscription error:', error);
-    });
-
     return () => {
       usePusher.unsubscribe(`chat-${chatRoom.id}`);
-      console.log('Unsubscribed from channel:', `chat-${chatRoom.id}`);
     };
   }, [chatRoom, session]);
 
