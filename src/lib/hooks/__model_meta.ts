@@ -196,6 +196,12 @@ const metadata = {
                     isDataModel: true,
                     isArray: true,
                     backLink: 'receiver',
+                }, favorites: {
+                    name: "favorites",
+                    type: "Favorite",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'user',
                 },
             }
             , uniqueConstraints: {
@@ -317,6 +323,12 @@ const metadata = {
                 }, chatRooms: {
                     name: "chatRooms",
                     type: "ChatRoom",
+                    isDataModel: true,
+                    isArray: true,
+                    backLink: 'product',
+                }, favorites: {
+                    name: "favorites",
+                    type: "Favorite",
                     isDataModel: true,
                     isArray: true,
                     backLink: 'product',
@@ -718,11 +730,64 @@ const metadata = {
             ,
         }
         ,
+        favorite: {
+            name: 'Favorite', fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    isId: true,
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, user: {
+                    name: "user",
+                    type: "User",
+                    isDataModel: true,
+                    backLink: 'favorites',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "userId" },
+                }, userId: {
+                    name: "userId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'user',
+                }, product: {
+                    name: "product",
+                    type: "Product",
+                    isDataModel: true,
+                    backLink: 'favorites',
+                    isRelationOwner: true,
+                    foreignKeyMapping: { "id": "productId" },
+                }, productId: {
+                    name: "productId",
+                    type: "String",
+                    isForeignKey: true,
+                    relationField: 'product',
+                }, createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@default", "args": [] }],
+                }, updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    attributes: [{ "name": "@updatedAt", "args": [] }],
+                },
+            }
+            , uniqueConstraints: {
+                id: {
+                    name: "id",
+                    fields: ["id"]
+                }, userId_productId: {
+                    name: "userId_productId",
+                    fields: ["userId", "productId"]
+                },
+            }
+            ,
+        }
+        ,
     }
     ,
     deleteCascade: {
-        user: ['Account', 'Session', 'Product'],
-        product: ['ProductImage', 'ProductAttribute'],
+        user: ['Account', 'Session', 'Product', 'Favorite'],
+        product: ['ProductImage', 'ProductAttribute', 'Favorite'],
         category: ['CategoryAttribute'],
     }
     ,

@@ -55,6 +55,7 @@ model User {
   sentMessages  Message[]  @relation("MessageSender")
   sentChats     ChatRoom[] @relation("SentChats")
   receivedChats ChatRoom[] @relation("ReceivedChats")
+  favorites     Favorite[]
 }
 
 model VerificationToken {
@@ -86,6 +87,7 @@ model Product {
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt()
   chatRooms    ChatRoom[]         @relation("ProductChatRooms")
+  favorites    Favorite[]
 
   @@index([wants(sort: Desc)])
 }
@@ -177,4 +179,16 @@ model Message {
   isRead     Boolean  @default(false)
   type       String   @default("TEXT")
   status     String   @default("SENT")
+}
+
+model Favorite {
+  id        String   @id() @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@unique([userId, productId])
 }

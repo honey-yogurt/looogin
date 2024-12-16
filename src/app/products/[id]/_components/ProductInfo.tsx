@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useCreateChatRoom, useFindFirstChatRoom } from "@/lib/hooks"
+import { useCreateChatRoom, useFindFirstChatRoom, useCreateFavorite, useDeleteFavorite, useFindFirstFavorite } from "@/lib/hooks"
 import { toast } from "sonner"
 import type { Product, User, ProductAttribute } from "@prisma/client"
+import { cn } from "@/lib/utils"
 
 interface ProductInfoProps {
   product: Product & {
@@ -19,6 +20,16 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const { data: session, status: sessionStatus } = useSession()
   const router = useRouter()
   const { mutateAsync: createChatRoom } = useCreateChatRoom()
+  const { mutateAsync: createFavorite } = useCreateFavorite()
+  const { mutateAsync: deleteFavorite } = useDeleteFavorite()
+  const { data: existingFavorite } = useFindFirstFavorite({
+    where: {
+      AND: [
+        { productId: product.id },
+        { userId: session?.user?.id || '' }
+      ]
+    }
+  })
   
   // 查找现有聊天室
   const { data: existingRoom } = useFindFirstChatRoom({
@@ -82,6 +93,30 @@ export function ProductInfo({ product }: ProductInfoProps) {
     }
   }
 
+  const handleFavorite = async () => {
+    if (!session?.user?.id) {
+      router.push('/signin')
+      return
+    }
+
+    try {
+      if (existingFavorite) {
+        await deleteFavorite({ where: { id: existingFavorite.id } })
+        toast.success('已取消收藏')
+      } else {
+        await createFavorite({
+          data: {
+            userId: session.user.id,
+            productId: product.id
+          }
+        })
+        toast.success('收藏成功')
+      }
+    } catch (error) {
+      toast.error('操作失败，请稍后重试')
+    }
+  }
+
   return (
     <div className="flex-1">
       <h1 className="text-2xl font-medium mb-4">{product.name}</h1>
@@ -116,17 +151,35 @@ export function ProductInfo({ product }: ProductInfoProps) {
         </div>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex gap-2">
+        <div className="flex-1 flex">
+          <Button 
+            className="flex-1 rounded-l-full rounded-r-none bg-yellow-400 hover:bg-yellow-500 text-black"
+            onClick={handleContact}
+            disabled={sessionStatus !== 'authenticated'}
+          >
+            我想要
+          </Button>
+          <Button 
+            className="flex-1 rounded-r-full rounded-l-none text-white bg-zinc-800 hover:bg-zinc-700"
+            variant="default"
+          >
+            立即购买
+          </Button>
+        </div>
+
         <Button 
-          className="flex-1"
-          onClick={handleContact}
-          disabled={sessionStatus !== 'authenticated'}
+          variant="outline" 
+          size="icon" 
+          className="rounded-full w-12 h-12 border-zinc-200"
+          onClick={handleFavorite}
         >
-          联系卖家
-        </Button>
-        <Button className="flex-1" variant="secondary">立即购买</Button>
-        <Button variant="outline" size="icon">
-          <Heart className="h-4 w-4" />
+          <Heart 
+            className={cn(
+              "h-5 w-5",
+              existingFavorite ? "fill-red-500 text-red-500" : "text-zinc-600"
+            )} 
+          />
         </Button>
       </div>
     </div>

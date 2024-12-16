@@ -76,6 +76,7 @@ model User {
     sentMessages  Message[]    @relation("MessageSender")
     sentChats     ChatRoom[]   @relation("SentChats")
     receivedChats ChatRoom[]   @relation("ReceivedChats")
+    favorites     Favorite[]
 
     @@allow('create', true)
     @@allow('read', auth() != null)
@@ -113,6 +114,7 @@ model Product {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     chatRooms ChatRoom[] @relation("ProductChatRooms") // 添加反向关系
+    favorites Favorite[]
 
     @@allow('read', true)
     @@allow('create', auth() != null && ownerId == auth().id)
@@ -248,4 +250,20 @@ model Message {
     @@allow('update', auth() != null && 
         (auth().id == chatRoom.senderId || auth().id == chatRoom.receiverId)
     )
+}
+
+// 收藏表
+model Favorite {
+    id          String    @id @default(cuid())
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      String
+    product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId   String
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@unique([userId, productId])
+    @@allow('create', auth() != null && auth().id == userId)
+    @@allow('read', true)
+    @@allow('delete', auth() != null && auth().id == userId)
 }

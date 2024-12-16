@@ -17,6 +17,7 @@ export * from './category-attribute';
 export * from './product-attribute';
 export * from './chat-room';
 export * from './message';
+export * from './favorite';
 export { getQueryKey } from '@zenstackhq/tanstack-query/runtime-v5';
 export { Provider } from '@zenstackhq/tanstack-query/runtime-v5/react';
 export { default as metadata } from './__model_meta';
