@@ -29,6 +29,16 @@ async function main() {
     },
   })
 
+  // 在创建产品之前，先创建分类
+  const categories = await Promise.all([
+    prisma.category.create({
+      data: { name: '电子产品' }
+    }),
+    prisma.category.create({
+      data: { name: '服饰鞋包' }
+    })
+  ])
+
   // 创建测试商品
   const products = await Promise.all([
     prisma.product.create({
@@ -40,10 +50,12 @@ async function main() {
         image: 'https://example.com/iphone14pro.jpg',
         status: 'AVAILABLE',
         ownerId: normalUser.id,
-        category: '电子产品',
-        label: '手机,苹果,全新',
+        categoryId: categories[0].id,
+        labels: ['手机', '苹果', '全新'],
         wants: 10,
-        popularity: 100
+        popularity: 100,
+        oprice: 8999.00,
+        depreciation: "全新"
       }
     }),
     prisma.product.create({
@@ -55,10 +67,12 @@ async function main() {
         image: 'https://example.com/macbookpro.jpg',
         status: 'AVAILABLE',
         ownerId: normalUser.id,
-        category: '电子产品',
-        label: '笔记本,苹果,二手',
+        categoryId: categories[0].id,
+        labels: ['笔记本', '苹果', '二手'],
         wants: 15,
-        popularity: 150
+        popularity: 150,
+        oprice: 14999.00,
+        depreciation: "次新"
       }
     }),
     prisma.product.create({
@@ -70,10 +84,12 @@ async function main() {
         image: 'https://example.com/nike.jpg',
         status: 'AVAILABLE',
         ownerId: adminUser.id,
-        category: '服饰鞋包',
-        label: '运动鞋,耐克,全新',
+        categoryId: categories[1].id,
+        labels: ['运动鞋', '耐克', '全新'],
         wants: 5,
-        popularity: 50
+        popularity: 50,
+        oprice: 499.00,
+        depreciation: "明显使用痕迹"
       }
     })
   ])
