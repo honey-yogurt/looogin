@@ -147,6 +147,8 @@ model Category {
     attributes CategoryAttribute[] // 该分类的属性定义列表
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@allow('read', true)
 }
 
 // 商品标签类型表，首先要新增标签类型，才能打标签
